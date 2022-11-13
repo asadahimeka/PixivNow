@@ -26,7 +26,7 @@ import type { User } from '../types'
 const props = defineProps<{
   user: User
 }>()
-const API = ref('https://pixiv.js.org')
+const API = ref('https://pixivnow.kanata.ml')
 </script>
 
 <style scoped lang="sass">
