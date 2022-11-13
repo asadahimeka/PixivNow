@@ -14,6 +14,8 @@ export interface RankingQuery {
     | 'daily_r18'
     | 'weekly_r18'
     | 'monthly_r18'
+    | 'daily_ai'
+    | 'daily_r18_ai'
   date?: string
 }
 
