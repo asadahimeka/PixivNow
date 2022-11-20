@@ -78,7 +78,7 @@ const randomBg = ref<{
 async function setRandomBgNoCache(): Promise<void> {
   try {
     const data: { illusts: ArtworkInfo[] } = await getJSON(
-      `${API_BASE}/api/illust/random?format=json&mode=safe&max=1`
+      `${API_BASE}/ajax/illust/discovery?mode=safe&max=1&_vercel_no_cache=1`
     )
     const info = data.illusts.find((item) => item.id) as ArtworkInfo
     const middle = `img/${formatInTimeZone(
@@ -108,7 +108,7 @@ async function setDiscoveryNoCache(): Promise<void> {
   try {
     discoveryList.value = []
     const data: { illusts: ArtworkInfoOrAd[] } = await getJSON(
-      `${API_BASE}/api/illust/random?format=json&mode=all&max=8`
+      `${API_BASE}/ajax/illust/discovery?mode=all&max=8&_vercel_no_cache=1`
     )
     const illusts = data.illusts.filter((item) =>
       Object.keys(item).includes('id')
