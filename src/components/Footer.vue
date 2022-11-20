@@ -36,12 +36,12 @@ footer.global-footer
       |
       a(:href="GITHUB_URL" target="_blank").
         {{ PROJECT_NAME }}
-      | 
+      |
       em v{{ version }}
     .dev-only(style="font-style: italic")
       | This is test site →&nbsp;
       a(
-        :href="'https://pixivnow.kanata.ml' + $route.path"
+        :href="'https://pixiv.cocomi.eu.org' + $route.path"
         target="_blank"
       ) Go to Prod.
 </template>
