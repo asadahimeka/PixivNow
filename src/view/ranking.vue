@@ -12,10 +12,15 @@
       .loading
         placeholder
 
-    //- Result
-    section(v-if='list')
-      h1 {{ list.date.toLocaleDateString('zh', { dateStyle: 'long' }) }}排行榜
-      artwork-large-list(:rank-list='list.contents')
+    template(v-else)
+      //- Result
+      section(v-if='list?.contents.length')
+        h1 {{ rankDateText(list.date) }}排行榜
+        artwork-large-list(:rank-list='list.contents')
+      section(v-else)
+        h1 {{ rankDateText(list.date) }}
+        error-page(title='暂无数据', description='')
+
 </template>
 
 <script lang="ts" setup>
@@ -27,26 +32,46 @@ import Placeholder from '../components/Placeholder.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { ArtworkRank } from '../types'
-import { getCache, setCache } from './siteCache'
+import { getCache, setCache } from '../utils/siteCache'
 import { getJSON } from '../utils/fetch'
+import subDays from 'date-fns/subDays'
+import formatDate from 'date-fns/format'
+import parseDate from 'date-fns/parse'
 
+const today = new Date()
+const defQueryDate = subDays(new Date(), today.getHours() > 14 ? 1 : 2)
+const defQueryDateString = formatDate(defQueryDate ,'yyyyMMdd')
 const error = ref('')
 const loading = ref(true)
 const list = ref<{
   date: Date
   contents: ArtworkRank[]
-} | null>(null)
+}>({
+  date: defQueryDate,
+  contents: []
+})
 const route = useRoute()
 
-async function init(): Promise<void> {
-  loading.value = true
-  list.value = getCache('ranking.rankingList')
-  if (list.value) {
-    loading.value = false
-    return
-  }
+function rankDateText(date: Date | string) {
+  if (!(date instanceof Date)) date = new Date(date)
   try {
-    const { p, mode, date } = route.params
+    return formatDate(date, 'yyyy年MM月dd日')
+  } catch (error) {
+    return ''
+  }
+}
+
+async function init(): Promise<void> {
+  try {
+    loading.value = true
+    const { p = '1', mode = 'daily', date = defQueryDateString } = route.query
+    const dbKey = `ranking.${mode}.${date}.${p}`
+    const cacheData = await getCache(dbKey)
+    if (cacheData) {
+      list.value = cacheData
+      loading.value = false
+      return
+    }
     const searchParams = new URLSearchParams()
     if (p && typeof p === 'string') searchParams.append('p', p)
     if (mode && typeof mode === 'string') searchParams.append('mode', mode)
@@ -56,18 +81,20 @@ async function init(): Promise<void> {
       date: string
       contents: ArtworkRank[]
     } = await getJSON(`${API_BASE}/ranking.php?${searchParams.toString()}`)
-    // Date
-    const rankingDate = data.date
-    const listValue = {
-      date: new Date(
-        +rankingDate.substring(0, 4),
-        +rankingDate.substring(4, 6) - 1,
-        +rankingDate.substring(6, 8)
-      ),
-      contents: data.contents,
+
+    if (data?.contents?.length) {
+      const listValue = {
+        date: parseDate(data.date, 'yyyyMMdd', new Date()),
+        contents: data.contents,
+      }
+      list.value = listValue
+      setCache(dbKey, listValue)
+    } else {
+      list.value = {
+        date: parseDate(date as string, 'yyyyMMdd', new Date()),
+        contents: []
+      }
     }
-    list.value = listValue
-    setCache('ranking.rankingList', listValue)
   } catch (err) {
     if (err instanceof Error) {
       error.value = err.message

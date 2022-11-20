@@ -24,7 +24,7 @@
         .username {{ user.name }}
         .following
           | 关注了 <strong>{{ user.following }}</strong> 人
-        .gender(v-if='user.gender?.name') 
+        .gender(v-if='user.gender?.name')
           fa(icon='venus-mars')
           | {{ user.gender.name }}
         .birthday(v-if='user.birthDay?.name')
@@ -131,7 +131,7 @@
         .tab-contents
           section(v-if='tab === "illust"')
             h2 插画
-            .no-result(v-if='user.illusts && !user.illusts.length') 
+            .no-result(v-if='user.illusts && !user.illusts.length')
               div 用户没有插画作品 (｡•́︿•̀｡)
             artwork-list(:list='user.illusts' :show-tags="false")
           section(v-if='tab === "manga"')
@@ -162,8 +162,8 @@ import ErrorPage from '../components/ErrorPage.vue'
 import Modal from '../components/Modal.vue'
 import Placeholder from '../components/Placeholder.vue'
 
-import { getCache, setCache } from './siteCache'
-import { ArtworkInfo, User } from '../types'
+import { getCache, setCache } from '../utils/siteCache'
+import type { ArtworkInfo, User } from '../types'
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import { getJSON } from '../utils/fetch'
@@ -181,7 +181,7 @@ const route = useRoute()
 const userStore = useUserStore()
 
 async function init(id: string | number): Promise<void> {
-  const cache = getCache(`users.${id}`)
+  const cache = await getCache(`users.${id}`)
   if (cache) {
     loading.value = false
     user.value = cache
@@ -200,13 +200,14 @@ async function init(id: string | number): Promise<void> {
         novels: Record<string, ArtworkInfo>
       }>(`${API_BASE}/ajax/user/${id}/profile/top`),
     ])
-    user.value = {
+    const userData = {
       ...data,
       illusts: sortArtList(profileData.illusts),
       manga: sortArtList(profileData.manga),
       novels: sortArtList(profileData.novels),
     }
-    setCache(`users.${id}`, data)
+    user.value = userData
+    setCache(`users.${id}`, userData)
     document.title = `${data.name} | User | PixivNow`
     await getBookmarks()
   } catch (err) {

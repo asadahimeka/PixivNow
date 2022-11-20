@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios, { AxiosRequestConfig, Method } from 'axios'
 import cookie from 'cookie'
+import isbot from 'isbot'
 
 export function makeArtList(
   obj: Record<string, { id: number }>
@@ -70,13 +71,15 @@ export async function request({
     timeout: 9000,
     headers: {
       accept: headers.accept || '*/*',
+      'accept-encoding': 'gzip, deflate, br',
       'accept-language':
         headers['accept-language'] ||
         'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-      cookie: headers.cookie || '',
+      cookie: headers.cookie || process.env.PIXIV_COOKIE || '',
       // 避免国产阴间浏览器或手机端等导致的验证码
       'user-agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
+      'dnt': '1',
 
       // ↓ Keep these headers
       host: 'www.pixiv.net',
@@ -98,7 +101,8 @@ export async function request({
 }
 
 export function isAccepted(req: VercelRequest) {
-  const { UA_BLACKLIST = '[]' } = process.env
+  if (isbot(req.headers['user-agent'])) return false
+  const { UA_BLACKLIST = '["bot"]' } = process.env
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
     const ua = req.headers['user-agent'] || ''
@@ -110,4 +114,13 @@ export function isAccepted(req: VercelRequest) {
   } catch (e) {
     return false
   }
+}
+
+export default async (req: VercelRequest, res: VercelResponse) => {
+  res.send({
+    url: req.url,
+    headers: req.headers,
+    cookies: req.cookies,
+    isAccepted: isAccepted(req)
+  })
 }

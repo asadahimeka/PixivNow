@@ -8,7 +8,7 @@
 
     .site-logo
       img(:src='LogoH')
-    .description Pixiv Service Proxy
+    .description Another Pixiv Illustration Viewer
 
     .bg-info
       a.pointer(
@@ -55,7 +55,7 @@
 import { onMounted, ref } from 'vue'
 import { formatInTimeZone } from 'date-fns-tz'
 import { API_BASE } from '../config'
-import { getCache, setCache } from './siteCache'
+import { getCache, setCache } from '../utils/siteCache'
 
 import ArtworkList from '../components/ArtworksList/ArtworkList.vue'
 import Modal from '../components/Modal.vue'
@@ -89,14 +89,14 @@ async function setRandomBgNoCache(): Promise<void> {
     const url = `${API_BASE}/-/img-master/${middle}_p0_master1200.jpg`
     randomBg.value.info = info
     randomBg.value.url = url
-    setCache('home.randomBg', { info, url })
+    setCache('home.randomBg', { info, url }, 3600)
   } catch (err) {
     randomBg.value.url = 'https://api.daihan.top/api/acg'
   }
 }
 
 async function setRandomBgFromCache(): Promise<void> {
-  const cache = getCache('home.randomBg')
+  const cache = await getCache('home.randomBg')
   if (cache) {
     randomBg.value = cache
   } else {
@@ -114,14 +114,14 @@ async function setDiscoveryNoCache(): Promise<void> {
       Object.keys(item).includes('id')
     ) as ArtworkInfo[]
     discoveryList.value = illusts
-    setCache('home.discoveryList', illusts)
+    setCache('home.discoveryList', illusts, 3600)
   } catch (err) {
     console.error('获取探索发现失败')
   }
 }
 
 async function setDiscoveryFromCache(): Promise<void> {
-  const cache = getCache('home.discoveryList')
+  const cache = await getCache('home.discoveryList')
   if (cache) {
     discoveryList.value = cache
   } else {

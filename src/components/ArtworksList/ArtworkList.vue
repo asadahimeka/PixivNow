@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 const artworks = computed(() => {
-  return props.list.filter((item) =>
+  return props.list?.filter((item) =>
     Object.keys(item).includes('id')
   ) as ArtworkInfo[]
 })

@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import { formatInTimeZone } from 'date-fns-tz'
 import { handleError, request } from '../utils'
 
-import { Artwork } from '../../src/types'
+import type { Artwork } from '../../src/types'
 
 type ArtworkOrAd =
   | Artwork

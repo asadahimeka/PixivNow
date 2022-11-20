@@ -112,7 +112,7 @@ import ErrorPage from '../components/ErrorPage.vue'
 import Gallery from '../components/Gallery.vue'
 import Placeholder from '../components/Placeholder.vue'
 import ShowMore from '../components/ShowMore.vue'
-import { getCache, setCache } from './siteCache'
+import { getCache, setCache } from '../utils/siteCache'
 
 // Types
 import type { Artwork, ArtworkInfo, ArtworkUrls, User } from '../types'
@@ -145,8 +145,8 @@ const store = useUserStore()
 
 async function init(id: string): Promise<void> {
   loading.value = true
-  const dataCache = getCache(`illust.${id}`)
-  const pageCache = getCache(`illust.${id}.page`)
+  const dataCache = await getCache(`illust.${id}`)
+  const pageCache = await getCache(`illust.${id}.page`)
   if (dataCache && pageCache) {
     illust.value = dataCache
     gallery.value = pageCache
@@ -167,6 +167,7 @@ async function init(id: string): Promise<void> {
     setCache(`illust.${id}.page`, illustPage)
     illust.value = illustData
     gallery.value = illustPage
+    loading.value = false
     await getUser(illustData.userId)
     await getFirstRecommend(id)
   } catch (err) {
@@ -176,13 +177,12 @@ async function init(id: string): Promise<void> {
     } else {
       error.value = '未知错误'
     }
-  } finally {
     loading.value = false
   }
 }
 
 async function getUser(userId: string): Promise<void> {
-  const value = getCache(`user.${userId}`)
+  const value = await getCache(`user.${userId}`)
   if (value) {
     user.value = value
     return
