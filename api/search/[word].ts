@@ -14,6 +14,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       },
       headers: req.headers,
     })
+    res.setHeader('Cache-Control', 'max-age=0, s-maxage=600')
     res.send(data)
   } catch (err) {
     return handleError(err, res)

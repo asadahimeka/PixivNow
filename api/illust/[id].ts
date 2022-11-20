@@ -31,6 +31,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       details.data.userIllusts = makeArtList(details.data.userIllusts)
     } catch (e) {}
 
+    res.setHeader('Cache-Control', 'max-age=0, s-maxage=3600')
     return res.send({ ...details.data, pages: pages.data })
   } catch (err) {
     return handleError(err, res)

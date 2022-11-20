@@ -35,6 +35,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         i.xRestrict = i?.illust_content_type?.sexual || 0
         return i
       })
+      res.setHeader('Cache-Control', 'max-age=0, s-maxage=3600')
       res.send(camelCaseKeys(data))
     })
     .catch((err) => {
