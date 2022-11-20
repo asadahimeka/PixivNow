@@ -1,8 +1,11 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { load } from 'cheerio'
-import { handleError, request } from '../utils'
+import { handleError, isAccepted, request } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const token = req.cookies.PHPSESSID || req.query.token
   if (!token) {
     return res.status(403).send({ message: '未配置用户密钥' })

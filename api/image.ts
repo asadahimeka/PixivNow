@@ -1,9 +1,12 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
-import { handleError } from './utils'
+import { handleError, isAccepted } from './utils'
 import { IMAGE_CACHE_SECONDS } from '../src/config'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const { __PREFIX, __PATH } = req.query
   if (!__PREFIX || !__PATH) {
     return res.status(400).send({ message: 'Missing param(s)' })

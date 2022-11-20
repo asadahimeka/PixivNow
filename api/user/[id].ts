@@ -1,7 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, makeArtList, request } from '../utils'
+import { handleError, isAccepted, makeArtList, request } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const id = req.query.id as string
   if (!/^\d+$/g.test(id)) {
     return res.status(400).send({

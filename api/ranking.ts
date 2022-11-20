@@ -1,6 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, request } from './utils'
-import camelCaseKeys from 'camelcase-object-deep'
+import { handleError, isAccepted, request } from './utils'
 
 export interface RankingQuery {
   p?: number
@@ -20,6 +19,9 @@ export interface RankingQuery {
 }
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const { query } = req
 
   request({
@@ -36,7 +38,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         return i
       })
       res.setHeader('Cache-Control', 'max-age=0, s-maxage=3600')
-      res.send(camelCaseKeys(data))
+      res.send(data)
     })
     .catch((err) => {
       return handleError(err, res)

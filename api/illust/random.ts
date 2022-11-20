@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { formatInTimeZone } from 'date-fns-tz'
-import { handleError, request } from '../utils'
+import { handleError, isAccepted, request } from '../utils'
 
 import type { Artwork } from '../../src/types'
 
@@ -11,6 +11,9 @@ type ArtworkOrAd =
     }
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const isImage =
     (req.headers.accept?.includes('image') || req.query.format === 'image') &&
     req.query.format !== 'json'

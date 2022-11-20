@@ -1,7 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, request } from '../utils'
+import { handleError, isAccepted, request } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  if (!isAccepted(req)) {
+    return res.status(403).send('403 Forbidden')
+  }
   const { query } = req
   const { word } = query
   try {

@@ -4,7 +4,7 @@ import { isAccepted, request } from './utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
-    res.status(403).send('403 Forbidden')
+    return res.status(403).send('403 Forbidden')
   }
   try {
     const { __PREFIX, __PATH } = req.query
