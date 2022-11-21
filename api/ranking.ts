@@ -22,7 +22,10 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
     return res.status(403).send('403 Forbidden')
   }
-  const { query } = req
+  const { query, headers } = req
+
+  res.setHeader('access-control-allow-origin', '*')
+  res.setHeader('access-control-allow-credentials', 'true')
 
   request({
     path: '/ranking.php',
@@ -30,15 +33,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       ...query,
       format: 'json',
     },
-    headers: req.headers,
+    headers,
   })
     .then(({ data }) => {
       data.contents = data?.contents?.map((i: any) => {
-        i.xRestrict = i?.illust_content_type?.sexual || 0
+        i.x_restrict = i?.illust_content_type?.sexual || 0
         return i
       })
-      res.setHeader('access-control-allow-origin', '*')
-      res.setHeader('access-control-allow-credentials', 'true')
       res.setHeader('cache-control', 'max-age=0, s-maxage=3600')
       res.send(data)
     })

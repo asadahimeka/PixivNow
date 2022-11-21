@@ -19,7 +19,7 @@
   "redirects": [
     {
       "source": "/-/:__PATH*",
-      "destination": "https://pximg.cocomi.cf/:__PATH"
+      "destination": "https://nfn.kanata.ml/pximg/:__PATH"
     }
   ],
   "headers": []

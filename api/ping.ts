@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import { isAccepted, request } from './utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
-  if (!isAccepted(req)) {
+  if (!req.headers['user-agent']?.includes('UptimeRobot') && !isAccepted(req)) {
     return res.status(403).send('403 Forbidden')
   }
   const timestamp = Date.now()

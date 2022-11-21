@@ -17,7 +17,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     case 'image':
     case '-':
       // domain = 'i'
-      return res.redirect(`https://pximg.cocomi.cf/${__PATH}`)
+      return res.redirect(`https://nfn.kanata.ml/pximg/${__PATH}`)
     case '~':
       domain = 's'
       break

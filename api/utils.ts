@@ -101,12 +101,12 @@ export async function request({
 }
 
 export function isAccepted(req: VercelRequest) {
-  if (isbot(req.headers['user-agent'])) return false
+  const ua = req.headers['user-agent']
+  if (isbot(ua)) return false
   const { UA_BLACKLIST = '["bot"]' } = process.env
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
-    const ua = req.headers['user-agent'] || ''
-    return (
+    return Boolean(
       ua &&
       Array.isArray(list) &&
       !new RegExp(`(${list.join('|')})`, 'gi').test(ua)
