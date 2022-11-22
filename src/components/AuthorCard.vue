@@ -3,7 +3,7 @@ card.author-card(title='')
   .flex-center
     .left
       router-link(:to="'/users/' + user.userId")
-        img(:src="API + user.imageBig" alt="")
+        img(:src="resolveSrc(user.imageBig)" alt="")
     .right
       .flex
         h4
@@ -22,6 +22,7 @@ import ArtworkList from '../components/ArtworksList/ArtworkList.vue'
 import Card from './Card.vue'
 
 import type { User } from '../types'
+import { resolveSrc } from '../config';
 
 const props = defineProps<{
   user: User

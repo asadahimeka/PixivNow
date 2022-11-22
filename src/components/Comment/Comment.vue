@@ -3,7 +3,7 @@ li.comment-block
   .left
     router-link.plain(:to="'/users/' + comment.userId")
       img.avatar(
-        :src="API_BASE + comment.img"
+        :src="resolveSrc(comment.img)"
         :title="comment.userName + ' (' + comment.userId + ')'"
       )
   .right
@@ -15,14 +15,14 @@ li.comment-block
     .content(v-if="!comment.stampId" v-html="replaceStamps(comment.comment)")
     .content(v-if="comment.stampId")
       img.big-stamp(
-        :src="API_BASE + '/~/common/images/stamp/generated-stamps/' + comment.stampId + '_s.jpg'"
+        :src="resolveSrc('/~/common/images/stamp/generated-stamps/' + comment.stampId + '_s.jpg')"
         alt="表情包"
         lazyload)
     .comment-date {{ comment.commentDate }}
 </template>
 
 <script lang="ts" setup>
-import { API_BASE } from '../../config'
+import { API_BASE, resolveSrc } from '../../config'
 import stampList from './stampList.json'
 import type { Comments } from '../../types'
 import { useUserStore } from '../../states'

@@ -4,13 +4,13 @@
   .flex.logged-in(v-if="store.isLoggedIn")
     .left
       .avatar
-        img(:src="API_BASE + store.userProfileImg")
+        img(:src="resolveSrc(store.userProfileImg)")
     .right
       textarea(v-model="comment" :disabled="loading")
     .submit.align-right
     button(@click="async () => await submit()" :disabled="loading") 发送
   .flex.not-logged-in(v-if="!store.isLoggedIn")
-    p 
+    p
       | 您需要
       router-link(:to="'/login?back=' + $route.path") 设置 Pixiv 令牌
       | 以发表评论。
@@ -20,7 +20,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { ref } from 'vue'
-import { API_BASE } from '../../config'
+import { API_BASE, resolveSrc } from '../../config'
 import { useUserStore } from '../../states'
 
 const store = useUserStore()
@@ -54,7 +54,7 @@ async function submit(): Promise<void> {
       },
       {
         headers: {
-          'X-CSRF-TOKEN': Cookies.get('csrf_token'),
+          'X-CSRF-TOKEN': Cookies.get('csrf_token') || '',
         },
       }
     )

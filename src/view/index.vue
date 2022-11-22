@@ -1,7 +1,7 @@
 <template lang="pug">
 #home-view
   .top-slider.align-center(
-    :style='{ "background-image": `url(${randomBg.url})` }'
+    :style='{ "background-image": `url(${resolveSrc(randomBg.url)})` }'
   )
     section.search-area.flex-1
       search-box.big.search
@@ -28,7 +28,7 @@
     h3 背景图片：{{ randomBg.info.title }}
     .align-center
       router-link.thumb(:to='"/artworks/" + randomBg.info.id')
-        img(:src='randomBg.url' lazyload)
+        img(:src='resolveSrc(randomBg.url)' lazyload)
       .desc
         strong {{ randomBg.info.title }}
         | &ensp;&mdash;&ensp;
@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { formatInTimeZone } from 'date-fns-tz'
-import { API_BASE } from '../config'
+import { API_BASE, resolveSrc } from '../config'
 import { getCache, setCache } from '../utils/siteCache'
 
 import ArtworkList from '../components/ArtworksList/ArtworkList.vue'
@@ -86,7 +86,7 @@ async function setRandomBgNoCache(): Promise<void> {
       'Asia/Tokyo',
       'yyyy/MM/dd/HH/mm/ss'
     )}/${info.id}`
-    const url = `${API_BASE}/-/img-master/${middle}_p0_master1200.jpg`
+    const url = `/-/img-master/${middle}_p0_master1200.jpg`
     randomBg.value.info = info
     randomBg.value.url = url
     setCache('home.randomBg', { info, url }, 3600)

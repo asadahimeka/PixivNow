@@ -14,12 +14,12 @@
     .user-info
       .bg-area
         .bg-container(
-          :style='{ backgroundImage: "url(" + API_BASE + user?.background?.url + ")" }'
+          :style='{ backgroundImage: "url(" + resolveSrc(user?.background?.url) + ")" }'
         )
           span(v-if='!user.background') 用户未设置封面~
       .avatar-area
         a.plain.pointer(@click='showUserMore = true')
-          img(:src='API_BASE + user.imageBig')
+          img(:src='resolveSrc(user.imageBig)')
       .info-area
         .username {{ user.name }}
         .following
@@ -49,7 +49,7 @@
             title='查看头像',
             target='_blank'
           )
-            img(:src='API_BASE + user.imageBig')
+            img(:src='resolveSrc(user.imageBig)')
             .premium-icon(v-if='user.premium', title='该用户订阅了高级会员')
               fa(icon='parking')
           .title {{ user.name }}
@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts" setup>
-import { API_BASE } from '../config'
+import { API_BASE, resolveSrc } from '../config'
 import { addFollow, removeFollow } from '../utils/userActions'
 
 import ArtworkList from '../components/ArtworksList/ArtworkList.vue'

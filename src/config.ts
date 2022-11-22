@@ -26,3 +26,11 @@ export const PROJECT_NAME = 'PixivNow'
 
 // Image proxy cache seconds
 export const IMAGE_CACHE_SECONDS = 12 * 60 * 60 * 1000
+
+export function resolveSrc(src?: string | null) {
+  if (!src) return ''
+  if (src.startsWith('/~/')) {
+    return 'https://pixiv.cocomi.eu.org' + src
+  }
+  return 'https://nfn.kanata.ml/pximg' + src.replace('/-/', '/')
+}

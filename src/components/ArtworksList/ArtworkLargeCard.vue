@@ -4,7 +4,7 @@
     router-link(:to="'/artworks/' + illust.id")
       .thumb
         img(
-          :src="API_BASE + illust.url.replace('p0_master', 'p0_square')"
+          :src="resolveSrc(illust.url.replace('p0_master', 'p0_square'))"
           :alt="illust.title"
           lazyload)
       .x-restrict.tag(v-if="illust.xRestrict === 2" title="R-18")
@@ -24,7 +24,7 @@
     .author(:title="illust.userName")
       router-link(:to="'/users/' + illust.userId")
         img.avatar(
-          :src="API_BASE + illust.profileImageUrl"
+          :src="resolveSrc(illust.profileImageUrl)"
           lazyload
           )
         | {{ illust.userName }}
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { API_BASE } from '../../config'
+import { API_BASE, resolveSrc } from '../../config'
 import type { ArtworkInfo } from '../../types'
 
 const props = defineProps<{

@@ -23,7 +23,7 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
           @click='showUserDropdown = !showUserDropdown'
         )
           img.avatar(
-            :src='userStore.isLoggedIn ? userStore.userProfileImg : API_BASE + "/~/common/images/no_profile.png"',
+            :src='userStore.isLoggedIn ? userStore.userProfileImg : resolveSrc("/~/common/images/no_profile.png")',
             :title='userStore.isLoggedIn ? userStore.userId + " (" + userStore.userPixivId + ")" : "未登入"'
           )
           fa(icon='angle-down')
@@ -42,7 +42,7 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
                   .top
                     .banner-bg
                     img.avatar(
-                      :src='API_BASE + "/~/common/images/no_profile.png"'
+                      :src='resolveSrc("/~/common/images/no_profile.png")'
                     )
                   .details
                     a.user-name 游客
@@ -54,7 +54,7 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
                   .top
                     .banner-bg
                     router-link.plain.name(:to='"/users/" + userStore.userId')
-                      img.avatar(:src='API_BASE + userStore.userProfileImgBig')
+                      img.avatar(:src='resolveSrc(userStore.userProfileImgBig)')
                   .details
                     router-link.plain.user-name(:to='"/users/" + userStore.userId') {{ userStore.userName }}
                     .uid @{{ userStore.userPixivId }}
@@ -68,7 +68,7 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue'
 import SearchBox from './SearchBox.vue'
-import { API_BASE } from '../config'
+import { API_BASE, resolveSrc } from '../config'
 import { logout } from './userData'
 import LogoH from '../assets/LogoH.png'
 import { useSideNavStore, useUserStore } from '../states'

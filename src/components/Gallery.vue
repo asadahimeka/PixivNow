@@ -4,12 +4,12 @@
     div(v-for='(item, index) in pages', :data-pic-index='index')
       a.image-container(
         v-if='picShow === index',
-        :href='API_BASE + item.urls.original',
+        :href='resolveSrc(item.urls.original)',
         target='_blank',
         title='点击下载原图'
       )
         lazy-load.img(
-          :src='API_BASE + item.urls.regular',
+          :src='resolveSrc(item.urls.regular)',
           :width='item.width',
           :height='item.height'
           lazyload
@@ -23,7 +23,7 @@
         :class='{ "is-active": picShow === index }'
       )
         lazy-load.pic(
-          :src='API_BASE + item.urls.thumb_mini',
+          :src='resolveSrc(item.urls.thumb_mini)',
           :width='80',
           :height='80'
           lazyload
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { API_BASE } from '../config'
+import { API_BASE, resolveSrc } from '../config'
 import type { ArtworkUrls } from '../types'
 import LazyLoad from './LazyLoad.vue'
 

@@ -16,7 +16,7 @@
       fa(icon="heart")
   router-link(:to="'/artworks/' + item.id")
     lazy-load.img(
-      :src="API_BASE + item.url"
+      :src="resolveSrc(item.url)"
       :alt="item.alt"
       :title="item.alt"
       lazyload
@@ -28,14 +28,14 @@
   .author(:title="item.userName")
     router-link(:to="'/users/' + item.userId")
       img.avatar(
-        :src="API_BASE + (item.profileImageUrl)"
+        :src="resolveSrc(item.profileImageUrl)"
         lazyload
       )
       | {{ item.userName }}
 </template>
 
 <script lang="ts" setup>
-import { API_BASE } from '../../config'
+import { API_BASE, resolveSrc } from '../../config'
 import LazyLoad from '../LazyLoad.vue'
 import { addBookmark, removeBookmark } from '../../utils/artworkActions'
 
