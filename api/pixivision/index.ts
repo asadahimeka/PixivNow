@@ -1,12 +1,14 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios, { AxiosRequestConfig } from 'axios'
 import { AnyNode, Cheerio, CheerioAPI, load } from 'cheerio'
-import { handleError, isAccepted } from '../utils'
+import { handleError, isAccepted, setCorsHeader } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
     return res.status(403).send('403 Forbidden')
   }
+
+  setCorsHeader(req, res)
 
   const params: any = {}
   const { page } = req.query

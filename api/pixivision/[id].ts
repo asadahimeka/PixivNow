@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios, { AxiosRequestConfig } from 'axios'
 import { load } from 'cheerio'
-import { handleError, isAccepted } from '../utils'
+import { handleError, isAccepted, setCorsHeader } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
@@ -14,6 +14,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       message: 'Invalid ID',
     })
   }
+
+  setCorsHeader(req, res)
 
   const config: AxiosRequestConfig = {
     url: `https://www.pixivision.net/zh/a/${id}`,

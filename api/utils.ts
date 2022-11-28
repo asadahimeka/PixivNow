@@ -116,13 +116,8 @@ export function isAccepted(req: VercelRequest) {
   }
 }
 
-const allowCorsList = ['https://pixiv.kanata.ml', 'https://pixiv.nanoka.top']
 export function setCorsHeader(req: VercelRequest, res: VercelResponse) {
-  const { origin = '' } = req.headers
-  if (!allowCorsList.includes(origin)) return
-  res.setHeader('access-control-allow-origin', origin)
-  res.setHeader('access-control-allow-credentials', 'true')
-  res.setHeader('Vary', 'Origin')
+  res.setHeader('access-control-allow-origin', '*')
 }
 
 export default async (req: VercelRequest, res: VercelResponse) => {
