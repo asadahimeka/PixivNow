@@ -66,7 +66,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       tag_id: $latest_tag_link.attr('href')?.match(/(\d+)/)?.[1],
       items: $latest.find('._article-summary-card-related').map(function () {
         const $el = $(this)
-        const $link = $el.find('.ascr__title-container a')
+        const $link = $el.find('.ascr__title-container > a')
         return {
           id: $link.attr('href')?.match(/(\d+)/)?.[1],
           title: $link.text(),
@@ -82,7 +82,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       tag_id: $rec_tag_link.attr('href')?.match(/(\d+)/)?.[1],
       items: $rec.find('._article-summary-card-related').map(function () {
         const $el = $(this)
-        const $link = $el.find('.ascr__title-container a')
+        const $link = $el.find('.ascr__title-container > a')
         return {
           id: $link.attr('href')?.match(/(\d+)/)?.[1],
           title: $link.text(),
