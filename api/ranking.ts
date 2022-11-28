@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, isAccepted, request } from './utils'
+import { handleError, isAccepted, request, setCorsHeader } from './utils'
 
 export interface RankingQuery {
   p?: number
@@ -24,8 +24,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   }
   const { query, headers } = req
 
-  res.setHeader('access-control-allow-origin', '*')
-  res.setHeader('access-control-allow-credentials', 'true')
+  setCorsHeader(req, res)
 
   request({
     path: '/ranking.php',
