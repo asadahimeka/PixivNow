@@ -140,7 +140,7 @@ onMounted(async () => {
 
 [data-route="home"]
   .top-slider
-    min-height: calc(100vh)
+    min-height: calc(100vh + 1rem)
     margin-top: calc(-50px - 1rem)
     padding: 30px 10%
     background-position: center
@@ -152,6 +152,9 @@ onMounted(async () => {
     text-shadow: 0 0 2px #222
     display: flex
     flex-direction: column
+
+    .site-logo, .description
+      transform: translateY(-1rem)
 
     &::before
       content: ''
