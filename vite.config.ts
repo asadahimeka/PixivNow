@@ -54,7 +54,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/(pximg\.cocomi\.cf|i\.pixiv\.re)/,
+            urlPattern: /^https:\/\/(nfn\.kanata\.ml|i\.pixiv\.re)/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'cdn-cache',

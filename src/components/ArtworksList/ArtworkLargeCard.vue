@@ -4,11 +4,11 @@
     router-link(:to="'/artworks/' + illust.id")
       .thumb
         img(
-          v-if="illust.xRestrict < 1"
+          v-if="!illust.xRestrict"
           :src="resolveSrc(illust.url.replace('p0_master', 'p0_square'))"
           :alt="illust.title"
           lazyload)
-      .x-restrict.tag(v-if="illust.xRestrict > 0" title="R-18")
+      .x-restrict.tag(v-if="illust.xRestrict" title="R-18")
         fa(icon="eye")
       .page-count(
         v-if="+illust.pageCount > 1"

@@ -1,7 +1,7 @@
 <template lang="pug">
 .artwork-card
   .side-tags
-    .x-restrict(v-if="item.xRestrict > 0" title="R-18")
+    .x-restrict(v-if="item.xRestrict" title="R-18")
       fa(icon="eye")
     .page-count(
       v-if="item.pageCount > 1"
@@ -16,7 +16,7 @@
     //-   fa(icon="heart")
   router-link(:to="'/artworks/' + item.id")
     lazy-load.img(
-      v-if="item.xRestrict < 1"
+      v-if="!item.xRestrict"
       :src="resolveSrc(item.url)"
       :alt="item.alt"
       :title="item.alt"
@@ -72,6 +72,8 @@ function toggleBookmark(): void {
     left: 0
     top: 0
     display: block
+    width: 100%;
+    height: 100%;
 
     &::before
       content: ''
