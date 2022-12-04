@@ -20,6 +20,9 @@ export default defineConfig({
         clientsClaim: true,
         navigateFallbackDenylist: [
           /^\/api/,
+          /^\/-/,
+          /^\/~/,
+          /^\/(ajax|rpc|.+\.php)/,
         ],
         runtimeCaching: [
           {
