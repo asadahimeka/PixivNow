@@ -4,7 +4,7 @@
 
 Pixiv Service Proxy
 
-→ https://pixiv.js.org ←
+→ https://pixiv.cocomi.eu.org ←
 
 </div>
 
