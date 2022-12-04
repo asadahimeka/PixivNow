@@ -4,11 +4,11 @@
     router-link(:to="'/artworks/' + illust.id")
       .thumb
         img(
-          v-if="illust.xRestrict < 2"
+          v-if="!xRestrict"
           :src="resolveSrc(illust.url.replace('p0_master', 'p0_square'))"
           :alt="illust.title"
           lazyload)
-      .x-restrict.tag(v-if="illust.xRestrict > 1" title="R-18")
+      .x-restrict.tag(v-if="xRestrict" title="R-18")
         fa(icon="eye")
       .page-count(
         v-if="+illust.pageCount > 1"
@@ -35,6 +35,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { API_BASE, resolveSrc } from '../../config'
 import type { ArtworkInfo } from '../../types'
 
@@ -42,6 +44,12 @@ const props = defineProps<{
   illust: ArtworkInfo
   rank: number
 }>()
+
+const route = useRoute()
+const xRestrict = computed(() => {
+  if (route.name == 'ranking') return props.illust.xRestrict > 1
+  return props.illust.xRestrict > 0
+})
 </script>
 
 <style lang="sass">
