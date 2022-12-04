@@ -53,8 +53,8 @@
             .premium-icon(v-if='user.premium', title='该用户订阅了高级会员')
               fa(icon='parking')
           .title {{ user.name }}
-          .follow
-            button 关注
+          //- .follow
+          //-   button 关注
 
       .bottom
         section.user-comment

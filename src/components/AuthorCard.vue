@@ -8,9 +8,9 @@ card.author-card(title='')
       .flex
         h4
           router-link(:to="'/users/' + user.userId") {{ user.name }}
-        button
-          | 关注&nbsp;
-          fa(icon="plus")
+        //- button
+        //-   | 关注&nbsp;
+        //-   fa(icon="plus")
       p.description.pre {{ user.comment }}
 
   artwork-list.inline.tiny(:list="user.illusts")
@@ -42,6 +42,7 @@ const API = ref('https://pixiv.cocomi.eu.org')
 
 .right
   flex: 1
+  max-width: calc(100% - 80px - 1rem)
 
   h4
     margin: 0.2rem 0

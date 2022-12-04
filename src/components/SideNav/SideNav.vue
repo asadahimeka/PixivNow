@@ -11,18 +11,18 @@ aside.global-side-nav(:class='{ hidden: !sideNavStore.isOpen }')
         .title 导航
         ul
           list-link(icon='home', link='/', text='首页')
-          list-link.not-allowed(icon='image', link='', text='插画')
-          list-link(icon='user', link='', text='用户')
+          //- list-link.not-allowed(icon='image', link='', text='插画')
+          //- list-link(icon='user', link='', text='用户')
           list-link(icon='crown', link='/ranking', text='排行榜')
 
-      .group
-        .title Pixiv 令牌
-        ul
-          list-link(
-            icon='fingerprint',
-            link='/login',
-            :text='userStore.isLoggedIn ? "查看令牌" : "设置令牌"'
-          )
+      //- .group
+      //-   .title Pixiv 令牌
+      //-   ul
+      //-     list-link(
+      //-       icon='fingerprint',
+      //-       link='/login',
+      //-       :text='userStore.isLoggedIn ? "查看令牌" : "设置令牌"'
+      //-     )
 
       .group
         .title PixivNow
@@ -32,7 +32,12 @@ aside.global-side-nav(:class='{ hidden: !sideNavStore.isOpen }')
             externalLink='https://www.pixiv.net/',
             text='Pixiv.net'
           )
-          list-link(icon='heart', link='/about', text='关于我们')
+          list-link(
+            icon='external-link-alt',
+            externalLink='https://pixiv.js.org/',
+            text='原版网站'
+          )
+          list-link(icon='heart', link='/about', text='关于')
 </template>
 
 <script lang="ts" setup>

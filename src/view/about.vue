@@ -14,21 +14,21 @@ mixin repoLink
       h3 访客
       p 正常用，有手就行（
       h3 开发者
-      p API 文档暂时懒得写……反正设置了 <code>access-control-allow-origin: *</code>，其他的自己慢慢试吧（
+      p API 文档暂时懒得写……自己慢慢试吧（
 
-    card(title="访问令牌")
-      h3 这是什么
-      p “访问令牌”指的是您在 Pixiv 源站登录账号后键名为<code>PHPSESSID</code>的 cookie。
-      h3 隐私政策
-      p 我们不会收集或转让您的个人信息或 cookie。
-      h3 有什么用
-      p 如果您选择提供您的访问令牌，就能使用一些高级功能。包括但不限于：
-      ul
-        li 能看到更感兴趣的相关推荐
-        li 能够访问自己的收藏夹（暂时无法编辑）
-        li 能够访问 NSFW 内容（设定为允许时）
-        li 能够使用高级搜索（订阅过 Pixiv 会员时）
-      p 部分高级功能的效果取决于您在 Pixiv 源站的设定，您可以在 <external-link href="https://www.pixiv.net/setting_profile.php" target="_blank">这里</external-link> 查看。
+    //- card(title="访问令牌")
+    //-   h3 这是什么
+    //-   p “访问令牌”指的是您在 Pixiv 源站登录账号后键名为<code>PHPSESSID</code>的 cookie。
+    //-   h3 隐私政策
+    //-   p 我们不会收集或转让您的个人信息或 cookie。
+    //-   h3 有什么用
+    //-   p 如果您选择提供您的访问令牌，就能使用一些高级功能。包括但不限于：
+    //-   ul
+    //-     li 能看到更感兴趣的相关推荐
+    //-     li 能够访问自己的收藏夹（暂时无法编辑）
+    //-     li 能够访问 NSFW 内容（设定为允许时）
+    //-     li 能够使用高级搜索（订阅过 Pixiv 会员时）
+    //-   p 部分高级功能的效果取决于您在 Pixiv 源站的设定，您可以在 <external-link href="https://www.pixiv.net/setting_profile.php" target="_blank">这里</external-link> 查看。
 
     card(title="开销")
       p
@@ -40,10 +40,10 @@ mixin repoLink
       ul
         li <strong>GitHub</strong> 提供了源码托管和版本管控服务
         li <strong>Vercel</strong> 提供了页面托管和 serverless 计算服务
-        li <strong>JS.ORG</strong> 提供了域名服务
+        li <strong>EU.ORG</strong> 提供了域名服务
       h3 个人
-      p 
-        | 感谢为 
+      p
+        | 感谢为
         +repoLink()
         |  贡献内容的全部编辑者！
 

@@ -1,7 +1,7 @@
 <template lang="pug">
 .artwork-card
   .side-tags
-    .x-restrict(v-if="item.xRestrict" title="R-18")
+    .x-restrict(v-if="item.xRestrict > 0" title="R-18")
       fa(icon="eye")
     .page-count(
       v-if="item.pageCount > 1"
@@ -9,13 +9,14 @@
     )
       fa(icon="images")
       | {{ item.pageCount }}
-    .bookmark(
-      :class="{ bookmarked: item.bookmarkData }"
-      @click="toggleBookmark"
-    )
-      fa(icon="heart")
+    //- .bookmark(
+    //-   :class="{ bookmarked: item.bookmarkData }"
+    //-   @click="toggleBookmark"
+    //- )
+    //-   fa(icon="heart")
   router-link(:to="'/artworks/' + item.id")
     lazy-load.img(
+      v-if="item.xRestrict < 1"
       :src="resolveSrc(item.url)"
       :alt="item.alt"
       :title="item.alt"

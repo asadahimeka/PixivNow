@@ -47,7 +47,7 @@ export async function request({
 }: {
   method?: Method
   path?: `/${string}`
-  params?: Record<string, string | string[] |number>
+  params?: Record<string, string | string[] | number>
   data?: string
   headers?: any
 }) {

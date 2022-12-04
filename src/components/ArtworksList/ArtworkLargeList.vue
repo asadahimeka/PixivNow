@@ -1,7 +1,6 @@
 <template lang="pug">
-ul.artwork-large-list
-  li(v-for="(item) in artworks")
-    artwork-large-card(:illust="item[0]" :rank="item[1]")
+div.artwork-large-list
+  artwork-large-card(v-for="(item) in artworks" :key="item[0].id" :illust="item[0]" :rank="item[1]")
 </template>
 
 <script lang="ts" setup>
@@ -66,11 +65,10 @@ function convertRankToInfo(rankInfo: ArtworkRank[]): [ArtworkInfo, number][] {
 
 .artwork-large-list
   display: flex
+  justify-content: center
   flex-wrap: wrap
   padding-left: 0
-  list-style: none
-  gap: 1.5rem
-  justify-content: center
+  gap: 8px
 
   &.inline
     padding: 1rem

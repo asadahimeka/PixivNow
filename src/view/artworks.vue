@@ -8,7 +8,7 @@
   //- Done
   section.illust-container(v-if='!error && !loading')
     #top-area
-      gallery(:pages='gallery')
+      gallery(v-if='illust.xRestrict < 1' :pages='gallery')
 
       .body-inner
         #meta-area

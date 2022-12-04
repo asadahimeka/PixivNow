@@ -4,10 +4,11 @@
     router-link(:to="'/artworks/' + illust.id")
       .thumb
         img(
+          v-if="illust.xRestrict < 1"
           :src="resolveSrc(illust.url.replace('p0_master', 'p0_square'))"
           :alt="illust.title"
           lazyload)
-      .x-restrict.tag(v-if="illust.xRestrict === 2" title="R-18")
+      .x-restrict.tag(v-if="illust.xRestrict > 0" title="R-18")
         fa(icon="eye")
       .page-count(
         v-if="+illust.pageCount > 1"
@@ -17,6 +18,7 @@
       .ranking(
         v-if="rank !== 0"
         :class="{ gold: rank === 1, silver: rank === 2, bronze: rank === 3 }"
+        :style="`font-size: ${rank > 99 ? 1 : 1.3}rem;`"
         ) {{ rank }}
   .bottom
     h3.title(:title="illust.title")
@@ -52,14 +54,26 @@ h3
   box-sizing: border-box
   box-shadow: 0 0 4px #ccc
   padding: .4rem
-  width: 240px
+  width: 24%
+  min-width: 240px
   max-width: calc(50vw - 2rem)
+  margin-bottom: 5px
   background-color: var(--theme-background-color)
   border-radius: 4px
   transition: all .24s ease-in-out
 
   &:hover
     box-shadow: var(--theme-box-shadow-hover)
+
+@media screen and (max-width: 1150px)
+  .artwork-large-card
+    width: 32%
+@media screen and (max-width: 865px)
+  .artwork-large-card
+    width: 48%
+@media screen and (max-width: 578px)
+  .artwork-large-card
+    min-width: 100%
 
 .top
   position: relative
@@ -80,6 +94,7 @@ h3
       left: 0
       width: 100%
       height: 100%
+      object-fit: cover
 
   .page-count
     position: absolute
@@ -112,14 +127,16 @@ h3
     position: absolute
     top: -1rem
     left: -1rem
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 2rem
+    height: 2rem
     font-size: 1.4rem
+    font-weight: 600
     color: #252525
     background-color: #fff
     border-radius: 50%
-    width: 2rem
-    height: 2rem
-    text-align: center
-    line-height: 1.4
     box-shadow: 0 0 0 2px rgba(var(--theme-accent-color--rgb), 0.4) inset, 0 0 0 4px #fff
 
     &.gold

@@ -18,52 +18,54 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
 
     #global-nav__user-area.user-area
       .user-link
-        a.dropdown-btn.plain.pointer(
-          :class='{ "show-user": showUserDropdown }',
-          @click='showUserDropdown = !showUserDropdown'
-        )
-          img.avatar(
-            :src='userStore.isLoggedIn ? userStore.userProfileImg : resolveSrc("/~/common/images/no_profile.png")',
-            :title='userStore.isLoggedIn ? userStore.userId + " (" + userStore.userPixivId + ")" : "未登入"'
-          )
-          fa(icon='angle-down')
+        router-link.plain(to="/ranking" style="margin-left: 5px;color: #fff;")
+          fa(icon="crown")
+        //- span.dropdown-btn.plain.pointer(
+        //-   :class='{ "show-user": showUserDropdown }',
+        //-   @click='showUserDropdown = !showUserDropdown'
+        //- )
+        //-   img.avatar(
+        //-     :src='userStore.isLoggedIn ? userStore.userProfileImg : resolveSrc("/~/common/images/no_profile.png")',
+        //-     :title='userStore.isLoggedIn ? userStore.userId + " (" + userStore.userPixivId + ")" : "未登入"'
+        //-   )
+        //-   fa(icon='angle-down')
 
-        transition(
-          name='fade',
-          mode='out-in',
-          enter-active-class='fade-in-up',
-          leave-active-class='fade-out-down'
-        )
-          .dropdown-content(v-show='showUserDropdown')
-            ul
-              //- notLogIn
-              li(v-if='!userStore.isLoggedIn')
-                .nav-user-card
-                  .top
-                    .banner-bg
-                    img.avatar(
-                      :src='resolveSrc("/~/common/images/no_profile.png")'
-                    )
-                  .details
-                    a.user-name 游客
-                    .uid 绑定令牌，同步您的 Pixiv 信息！
+//-         transition(
+//-           name='fade',
+//-           mode='out-in',
+//-           enter-active-class='fade-in-up',
+//-           leave-active-class='fade-out-down'
+//-         )
+//-           .dropdown-content(v-show='showUserDropdown')
+//-             ul
+//-               //- notLogIn
+//-               li(v-if='!userStore.isLoggedIn')
+//-                 .nav-user-card
+//-                   .top
+//-                     .banner-bg
+//-                     img.avatar(
+//-                       :src='resolveSrc("/~/common/images/no_profile.png")'
+//-                     )
+//-                   .details
+//-                     a.user-name 游客
+//-                     .uid 绑定令牌，同步您的 Pixiv 信息！
 
-              //- isLogedIn
-              li(v-if='userStore.isLoggedIn')
-                .nav-user-card
-                  .top
-                    .banner-bg
-                    router-link.plain.name(:to='"/users/" + userStore.userId')
-                      img.avatar(:src='resolveSrc(userStore.userProfileImgBig)')
-                  .details
-                    router-link.plain.user-name(:to='"/users/" + userStore.userId') {{ userStore.userName }}
-                    .uid @{{ userStore.userPixivId }}
+//-               //- isLogedIn
+//-               li(v-if='userStore.isLoggedIn')
+//-                 .nav-user-card
+//-                   .top
+//-                     .banner-bg
+//-                     router-link.plain.name(:to='"/users/" + userStore.userId')
+//-                       img.avatar(:src='resolveSrc(userStore.userProfileImgBig)')
+//-                   .details
+//-                     router-link.plain.user-name(:to='"/users/" + userStore.userId') {{ userStore.userName }}
+//-                     .uid @{{ userStore.userPixivId }}
 
-              li(v-if='$route.path !== "/login"')
-                router-link.plain(:to='"/login?back=" + $route.path') {{ userStore.isLoggedIn ? "查看令牌" : "用户登入" }}
-              li(v-if='userStore.isLoggedIn')
-                a.plain(@click='logoutUser') 用户登出
-</template>
+//-               li(v-if='$route.path !== "/login"')
+//-                 router-link.plain(:to='"/login?back=" + $route.path') {{ userStore.isLoggedIn ? "查看令牌" : "用户登入" }}
+//-               li(v-if='userStore.isLoggedIn')
+//-                 a.plain(@click='logoutUser') 用户登出
+//- </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue'
@@ -114,12 +116,12 @@ onMounted(() => {
   })
 
   // Outside close user dropdown
-  document
-    .getElementById('global-nav__user-area')
-    ?.addEventListener('click', (e) => e.stopPropagation())
-  document.addEventListener('click', () => {
-    if (showUserDropdown.value) showUserDropdown.value = false
-  })
+  // document
+  //   .getElementById('global-nav__user-area')
+  //   ?.addEventListener('click', (e) => e.stopPropagation())
+  // document.addEventListener('click', () => {
+  //   if (showUserDropdown.value) showUserDropdown.value = false
+  // })
 })
 </script>
 

@@ -9,7 +9,14 @@ mixin pagenator()
 
 #search-view
   .body-inner
-    search-box.big
+    .search-box-wp
+      search-box.big
+      select.sel-usersiri(@change="onUsersIriChange")
+        option(value="") users入り
+        option(
+         v-for="mode in usersIriTags"
+         :key="mode"
+         :value="mode") {{ mode }}
 
     //- Error
     section(v-if="error && !loading")
@@ -17,7 +24,7 @@ mixin pagenator()
 
     //- Result
     section(v-if="!error")
-      +pagenator()
+      //- +pagenator()
 
       //- Loading
       .loading-area(v-if="loading")
@@ -62,10 +69,10 @@ async function makeSearch(
     p?: `${number}`
     mode?: string
   } = {
-    keyword: '',
-    p: '1',
-    mode: 'text',
-  }
+      keyword: '',
+      p: '1',
+      mode: 'text',
+    }
 ): Promise<void> {
   searchKeyword.value = keyword
   page.value = parseInt(p || '1')
@@ -77,7 +84,7 @@ async function makeSearch(
     const data: { illustManga: { data: ArtworkInfo[] } } = await getJSON(
       `${API_BASE}/ajax/search/artworks/${encodeURIComponent(
         keyword
-      )}?p=${p}&mode=${mode}`
+      )}?p=${p}${mode ? `&mode=${mode}` : ''}`
     )
     resultList.value = data?.illustManga?.data || []
     console.info(data?.illustManga?.data)
@@ -101,6 +108,27 @@ watch(page, (value) => {
   )
 })
 
+const usersIriTags = ref([
+  '30000users入り',
+  '20000users入り',
+  '10000users入り',
+  '7500users入り',
+  '5000users入り',
+  '1000users入り',
+  '500users入り',
+  '250users入り',
+  '100users入り',
+])
+
+async function onUsersIriChange(ev: Event) {
+  const { value } = ev.target as HTMLSelectElement
+  router.push(
+    `/search/${searchKeyword.value.replace(/\s+\d+users入り/i, '')}${value ? ' ' + value : ''}/1${
+      route.query.mode ? '?mode=' + route.query.mode : ''
+    }`
+  )
+}
+
 onBeforeRouteUpdate(async (to) => {
   const params = to.params as {
     keyword: string
@@ -121,6 +149,22 @@ onMounted(async () => {
 </script>
 
 <style lang="sass" scoped>
+.result-area
+  margin: 10px 0
+
+.search-box-wp
+  display: flex
+  align-items: center
+  .search-box
+    flex: 1
+.sel-usersiri
+  height: 32px
+  margin-left: 10px
+  padding: 5px
+  font-size: 13px
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)
+  border: none
+  border-radius: 6px
 
 .pagenator
   text-align: center

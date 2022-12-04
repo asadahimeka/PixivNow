@@ -52,11 +52,11 @@ router.addRoute({
 })
 
 // Ranking
-router.addRoute({
-  path: '/login',
-  name: 'user-login',
-  component: () => import('./view/login.vue'),
-})
+// router.addRoute({
+//   path: '/login',
+//   name: 'user-login',
+//   component: () => import('./view/login.vue'),
+// })
 
 // About
 router.addRoute({
