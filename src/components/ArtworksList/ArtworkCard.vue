@@ -146,6 +146,9 @@ function toggleBookmark(): void {
     border-radius: 4px
     font-size: 0.8rem
 
+    svg
+      margin-right: 0.2rem
+
   [data-icon]
     margin-right: .2rem
 
