@@ -1,4 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Home from './view/index.vue'
+import Artworks from './view/artworks.vue'
+import Users from './view/users.vue'
+import Search from './view/search.vue'
+import Ranking from './view/ranking.vue'
+import About from './view/about.vue'
+import NotFound from './view/404.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,7 +20,7 @@ const router = createRouter({
 router.addRoute({
   path: '/',
   name: 'home',
-  component: () => import('./view/index.vue'),
+  component: Home,
 })
 
 // Illust
@@ -21,7 +28,7 @@ router.addRoute({
   path: '/artworks/:id',
   alias: ['/illust/:id', '/i/:id'],
   name: 'artworks',
-  component: () => import('./view/artworks.vue'),
+  component: Artworks,
 })
 
 // User
@@ -29,7 +36,7 @@ router.addRoute({
   path: '/users/:id',
   name: 'users',
   alias: ['/u/:id'],
-  component: () => import('./view/users.vue'),
+  component: Users,
 })
 
 // Search
@@ -41,14 +48,14 @@ router.addRoute({
 router.addRoute({
   path: '/search/:keyword/:p',
   name: 'search',
-  component: () => import('./view/search.vue'),
+  component: Search,
 })
 
 // Ranking
 router.addRoute({
   path: '/ranking',
   name: 'ranking',
-  component: () => import('./view/ranking.vue'),
+  component: Ranking,
 })
 
 // Ranking
@@ -62,14 +69,14 @@ router.addRoute({
 router.addRoute({
   path: '/about',
   name: 'about-us',
-  component: () => import('./view/about.vue'),
+  component: About,
 })
 
 // 404
 router.addRoute({
   path: '/:pathMatch(.*)*',
   name: 'not-found',
-  component: () => import('./view/404.vue'),
+  component: NotFound,
 })
 
 router.afterEach(({ name }) => {
