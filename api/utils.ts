@@ -44,12 +44,14 @@ export async function request({
   params,
   data,
   headers,
+  specHeaders
 }: {
   method?: Method
   path?: `/${string}`
   params?: Record<string, string | string[] | number>
   data?: string
   headers?: any
+  specHeaders?: any
 }) {
   const url = new URL(path, 'https://www.pixiv.net')
   const cookies = cookie.parse(headers.cookie || '')
@@ -72,23 +74,28 @@ export async function request({
     headers: {
       accept: headers.accept || '*/*',
       'accept-encoding': 'gzip, deflate, br',
-      'accept-language':
-        headers['accept-language'] ||
-        'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+      'accept-language': headers['accept-language'] || 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
       cookie: headers.cookie || process.env.PIXIV_COOKIE || '',
       // 避免国产阴间浏览器或手机端等导致的验证码
-      'user-agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
-      'dnt': '1',
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.46",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua": "\"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"108\", \"Microsoft Edge\";v=\"108\"",
+      "sec-ch-ua-platform": "\"Windows\"",
 
       // ↓ Keep these headers
       host: 'www.pixiv.net',
       origin: 'https://www.pixiv.net',
       referer: 'https://www.pixiv.net/',
-      // Token
-      'x-csrf-token': headers['x-csrf-token'] || cookies.CSRFTOKEN || '',
+
+      ...specHeaders
     },
   }
+
+  if (headers['x-csrf-token'] || cookies.CSRFTOKEN) {
+    config.headers!['x-csrf-token'] = headers['x-csrf-token'] || cookies.CSRFTOKEN
+  }
+
+  console.log('config: ', config)
 
   try {
     const res = await axios(config)
@@ -102,11 +109,17 @@ export async function request({
 
 export function isAccepted(req: VercelRequest) {
   const ua = req.headers['user-agent']
+  const origin = req.headers['origin'] || ''
+  const referer = req.headers['referer'] || ''
   if (isbot(ua)) return false
-  const { UA_BLACKLIST = '["bot"]' } = process.env
+  const { UA_BLACKLIST = '["bot"]', ACCEPT_DIMAINS = '[]' } = process.env
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
-    return Boolean(
+    const acceptDomains = JSON.parse(ACCEPT_DIMAINS)
+    const re = new RegExp(`(${acceptDomains.join('|')})`, 'gi')
+    const flag = re.test(origin) || re.test(referer)
+
+    return flag && Boolean(
       ua &&
       Array.isArray(list) &&
       !new RegExp(`(${list.join('|')})`, 'gi').test(ua)
