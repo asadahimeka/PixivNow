@@ -65,6 +65,12 @@ export async function request({
     }
   }
 
+  let isAnon = false
+  if (params?._anon === '1') {
+    isAnon = true
+    delete params._anon
+  }
+
   const config: AxiosRequestConfig = {
     url: url.href,
     method,
@@ -75,7 +81,6 @@ export async function request({
       accept: headers.accept || '*/*',
       'accept-encoding': 'gzip, deflate, br',
       'accept-language': headers['accept-language'] || 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-      cookie: headers.cookie || process.env.PIXIV_COOKIE || '',
       // 避免国产阴间浏览器或手机端等导致的验证码
       "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.46",
       "sec-ch-ua-mobile": "?0",
@@ -89,6 +94,10 @@ export async function request({
 
       ...specHeaders
     },
+  }
+
+  if (!isAnon && (headers.cookie || process.env.PIXIV_COOKIE)) {
+    config.headers!.cookie = headers.cookie || process.env.PIXIV_COOKIE
   }
 
   if (headers['x-csrf-token'] || cookies.CSRFTOKEN) {
@@ -108,22 +117,18 @@ export async function request({
 }
 
 export function isAccepted(req: VercelRequest) {
-  const ua = req.headers['user-agent']
-  const origin = req.headers['origin'] || ''
-  const referer = req.headers['referer'] || ''
+  const { "user-agent": ua, origin = '', referer = '' } = req.headers
+  if (!ua) return false
   if (isbot(ua)) return false
-  const { UA_BLACKLIST = '["bot"]', ACCEPT_DIMAINS = '[]' } = process.env
+  const { UA_BLACKLIST = '[]', ACCEPT_DIMAINS = '[]' } = process.env
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
-    const acceptDomains = JSON.parse(ACCEPT_DIMAINS)
-    const re = new RegExp(`(${acceptDomains.join('|')})`, 'gi')
-    const flag = re.test(origin) || re.test(referer)
+    const acceptDomains: string[] = JSON.parse(ACCEPT_DIMAINS)
+    const uaOk = !list.some(e => ua.includes(e))
+    const originOk = acceptDomains.some(e => origin.includes(e))
+    const refererOk = acceptDomains.some(e => referer.includes(e))
 
-    return flag && Boolean(
-      ua &&
-      Array.isArray(list) &&
-      !new RegExp(`(${list.join('|')})`, 'gi').test(ua)
-    )
+    return (originOk || refererOk) && uaOk
   } catch (e) {
     return false
   }
