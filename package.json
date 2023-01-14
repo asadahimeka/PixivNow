@@ -3,6 +3,7 @@
   "version": "3.0.1",
   "private": true,
   "main": "index.js",
+  "type": "module",
   "repository": "https://github.com/FreeNowOrg/PixivNow.git",
   "contributors": [
     "Dragon-Fish <824399619@qq.com>",
