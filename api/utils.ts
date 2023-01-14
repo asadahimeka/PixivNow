@@ -124,7 +124,7 @@ export function isAccepted(req: VercelRequest) {
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
     const acceptDomains: string[] = JSON.parse(ACCEPT_DIMAINS)
-    const uaOk = !list.some(e => ua.includes(e))
+    const uaOk = !list.some(e => ua.toLowerCase().includes(e))
     const originOk = acceptDomains.some(e => origin.includes(e))
     const refererOk = acceptDomains.some(e => referer.includes(e))
 
