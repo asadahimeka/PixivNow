@@ -15,7 +15,7 @@ export function replaceUrl(
   function replace(str: string): string {
     return str
       .replace(/https:\/\/i\.pximg\.net\//g, '/-/')
-      .replace(/https:\/\/s\.pximg\.net\//g, '/~/')
+      // .replace(/https:\/\/s\.pximg\.net\//g, '/~/')
   }
   if (typeof obj === 'string') return replace(obj)
 

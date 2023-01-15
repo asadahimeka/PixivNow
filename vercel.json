@@ -5,10 +5,6 @@
   "framework": "vue",
   "rewrites": [
     {
-      "source": "/:__PREFIX(~)/:__PATH(.+)",
-      "destination": "/api/image"
-    },
-    {
       "source": "/:__PREFIX(ajax|rpc|.+\\.php)/:__PATH*",
       "destination": "/api/http"
     }
