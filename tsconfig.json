@@ -2,12 +2,12 @@
   "ts-node": {
     // these options are overrides used only by ts-node
     "compilerOptions": {
-      "module": "Node16"
+      "module": "CommonJS"
     }
   },
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES6",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
