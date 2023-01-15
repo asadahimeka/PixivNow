@@ -128,7 +128,7 @@ export function isAccepted(req: VercelRequest) {
     const originOk = acceptDomains.some(e => origin.includes(e))
     const refererOk = acceptDomains.some(e => referer.includes(e))
 
-    return (originOk || refererOk) && uaOk
+    return uaOk && (originOk || refererOk)
   } catch (e) {
     return false
   }

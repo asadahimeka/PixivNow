@@ -12,10 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Style
 import './styles/index.sass'
 
-// import { inject } from '@vercel/analytics'
-
-// inject()
-
 // Create App
 const app = createApp(App)
 

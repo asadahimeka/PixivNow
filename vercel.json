@@ -2,6 +2,11 @@
   "github": {
     "silent": true
   },
+  "functions": {
+    "api/*.ts": {
+      "memory": 128
+    }
+  },
   "rewrites": [
     {
       "source": "/:__PREFIX(ajax|rpc|.+\\.php)/:__PATH*",
