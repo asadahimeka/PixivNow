@@ -29,7 +29,7 @@ export const IMAGE_CACHE_SECONDS = 12 * 60 * 60 * 1000
 
 export function resolveSrc(src?: string | null) {
   if (!src) return ''
-  if (src.startsWith('/~/')) {
+  if (src.includes('/~/')) {
     return 'https://s.pximg.net' + src.replace('/~/', '/')
   }
   if (src.includes('s.pximg.net')) {
