@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios, { AxiosRequestConfig } from 'axios'
 import { AnyNode, Cheerio, CheerioAPI, load } from 'cheerio'
-import { handleError, isAccepted, setCorsHeader } from '../utils'
+import { handleError, isAccepted, setCorsHeader } from '../utils.mjs'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {

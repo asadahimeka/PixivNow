@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { isAccepted, request } from './utils'
+import { isAccepted, request } from './utils.mjs'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!req.headers['user-agent']?.includes('UptimeRobot') && !isAccepted(req)) {

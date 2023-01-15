@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { Method } from 'axios'
-import { isAccepted, request, setCorsHeader } from './utils'
+import { isAccepted, request, setCorsHeader } from './utils.mjs'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
