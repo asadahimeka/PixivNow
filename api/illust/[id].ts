@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, isAccepted, makeArtList, request } from '../utils.mjs'
+import { handleError, isAccepted, makeArtList, request } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {

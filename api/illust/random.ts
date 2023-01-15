@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { formatInTimeZone } from 'date-fns-tz'
-import { handleError, isAccepted, request } from '../utils.mjs'
+import { handleError, isAccepted, request } from '../utils'
 
 import type { Artwork } from '../../src/types'
 

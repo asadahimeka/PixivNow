@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, isAccepted, request, setCorsHeader } from './utils.mjs'
+import { handleError, isAccepted, request, setCorsHeader } from './utils'
 
 export interface RankingQuery {
   p?: number

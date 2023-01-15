@@ -1,8 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
-import { handleError, isAccepted } from './utils.mjs'
-
-const IMAGE_CACHE_SECONDS = 12 * 60 * 60 * 1000
+import { handleError, isAccepted } from './utils'
+import { IMAGE_CACHE_SECONDS } from '../src/config'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
