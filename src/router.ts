@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from './view/index.vue'
 import Artworks from './view/artworks.vue'
 import Users from './view/users.vue'
@@ -8,11 +8,10 @@ import About from './view/about.vue'
 import NotFound from './view/404.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [],
-  scrollBehavior(to, from) {
-    if (to === from) return
-    return { top: 0 }
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { top: 0 }
   },
 })
 
