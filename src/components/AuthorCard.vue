@@ -39,6 +39,7 @@ const API = ref('https://pixiv.cocomi.eu.org')
     border-radius: 50%
     width: 80px
     height: 80px
+    object-fit: cover
 
 .right
   flex: 1

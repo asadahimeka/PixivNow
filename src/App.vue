@@ -16,24 +16,30 @@ import SiteHeader from './components/Header.vue'
 import SiteFooter from './components/Footer.vue'
 import SideNav from './components/SideNav/SideNav.vue'
 import NProgress from './components/NProgress.vue'
-import { existsSessionId, initUser } from './components/userData'
+// import { existsSessionId, initUser } from './components/userData'
 import { onMounted } from 'vue'
-import { useUserStore } from './states'
+// import { useUserStore } from './states'
 
-const userStore = useUserStore()
+// const userStore = useUserStore()
 
-onMounted(async () => {
-  if (!existsSessionId()) {
-    console.log('No session id found. Maybe you are not logged in?')
-    userStore.logout()
-    return
-  }
-  try {
-    const userData = await initUser()
-    userStore.login(userData)
-  } catch (err) {
-    console.error('User init failed:', err)
-    userStore.logout()
+// onMounted(async () => {
+//   if (!existsSessionId()) {
+//     console.log('No session id found. Maybe you are not logged in?')
+//     userStore.logout()
+//     return
+//   }
+//   try {
+//     const userData = await initUser()
+//     userStore.login(userData)
+//   } catch (err) {
+//     console.error('User init failed:', err)
+//     userStore.logout()
+//   }
+// })
+
+onMounted(() => {
+  if (/MicroMessenger/i.test(navigator.userAgent)) {
+    document.body.innerHTML = '<p>&nbsp;&nbsp;F**k Wechat</p>'
   }
 })
 </script>

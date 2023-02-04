@@ -192,7 +192,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="sass">
-
 .loading
   text-align: center
 
@@ -218,4 +217,12 @@ h1
   margin-right: 10px
   padding: 5px
 
+#ranking-view .body-inner
+  max-width: 1400px
+</style>
+<style lang="sass">
+@media screen and (min-width: 1300px)
+  #ranking-view .artwork-large-card
+    width: 19%
+    min-width: 235px
 </style>
