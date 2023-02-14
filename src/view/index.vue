@@ -8,7 +8,7 @@
 
     .site-logo
       img(:src='LogoH')
-    .description Another Pixiv Illustration Viewer
+    .description Another Pixiv Service Proxy
 
     .bg-info
       a.pointer(
