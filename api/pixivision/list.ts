@@ -7,6 +7,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
     return res.status(403).send('403 Forbidden')
   }
+  const type = req.query.type as string
+  if (!type || !/^\w+$/g.test(type)) {
+    return res.status(400).send({
+      error: true,
+      message: 'Invalid type',
+    })
+  }
 
   setCorsHeader(req, res)
 
@@ -18,7 +25,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   let acceptLanguage = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
   if (lang && lang !== 'zh-Hans') acceptLanguage = lang
   const config: AxiosRequestConfig = {
-    url: 'https://www.pixivision.net/zh/c/illustration',
+    url: `https://www.pixivision.net/zh/c/${type}`,
     params,
     method: 'GET',
     timeout: 9000,

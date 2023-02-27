@@ -8,7 +8,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     return res.status(403).send('403 Forbidden')
   }
   const id = req.query.id as string
-  if (!/^\d+$/g.test(id)) {
+  if (!id || !/^\d+$/g.test(id)) {
     return res.status(400).send({
       error: true,
       message: 'Invalid ID',
@@ -39,22 +39,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     const $ = load(htmlResp.data)
 
     data.title = $('.am__title').text()
-    data.cover = $('._article-illust-eyecatch img').attr('src')
-    data.desc = $('._feature-article-body__article_thumbnail + ._feature-article-body__paragraph').text()
-
-    data.items = $('.article-item._feature-article-body__pixiv_illust').map(function () {
-      const $this = $(this)
-      const $titleLink = $this.find('.am__work__title a')
-      const $userLink = $this.find('.am__work__user-name a')
-      return {
-        title: $titleLink.text(),
-        illust_id: $titleLink.attr('href')?.match(/(\d+)/)?.[1],
-        illust_url: $this.find('.am__work__illust').attr('src'),
-        user_id: $userLink.attr('href')?.match(/(\d+)/)?.[1],
-        user_name: $userLink.text(),
-        user_avatar: $this.find('.am__work__uesr-icon').attr('src'),
-      }
-    }).toArray()
+    data.date = $('time._date').text()
+    data.content = $('.am__body').html()
 
     data.tags = $('._tag-list a').map(function () {
       const $el = $(this)
