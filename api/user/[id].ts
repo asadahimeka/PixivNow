@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { handleError, isAccepted, makeArtList, request } from '../utils'
+import { handleError, isAccepted, makeArtList, request, setCorsHeader } from '../utils'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
@@ -12,6 +12,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       message: 'Invalid User ID',
     })
   }
+  setCorsHeader(req, res)
 
   Promise.all([
     request({

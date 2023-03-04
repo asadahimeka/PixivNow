@@ -71,15 +71,15 @@ const randomBg = ref<{
   url: string
   info: ArtworkInfo
 }>({
-  url: '',
+  url: 'https://upload-bbs.miyoushe.com/upload/2023/03/04/190122060/c892850d22d95554d49ca4838ee7ef63_4567335272864834588.jpg',
   info: {} as ArtworkInfo,
 })
 
 async function setRandomBgNoCache(): Promise<void> {
   try {
     const data: { illusts: ArtworkInfo[] } = await getJSON(
-      `${API_BASE}/ajax/illust/discovery?mode=safe&max=1&_vercel_no_cache=1`
-    )
+      `${API_BASE}/ajax/illust/discovery?mode=safe&max=1`
+      )
     const info = data.illusts.find((item) => item.id) as ArtworkInfo
     const middle = `img/${formatInTimeZone(
       info.updateDate,
@@ -87,11 +87,19 @@ async function setRandomBgNoCache(): Promise<void> {
       'yyyy/MM/dd/HH/mm/ss'
     )}/${info.id}`
     const url = `/-/img-master/${middle}_p0_master1200.jpg`
-    randomBg.value.info = info
-    randomBg.value.url = url
+    let img: HTMLImageElement | null = new Image()
+    img.onload = () => {
+      setTimeout(() => {
+        randomBg.value.info = info
+        randomBg.value.url = url
+        img = null
+      }, 200)
+    }
+    img.src = url
     setCache('home.randomBg', { info, url }, 3600)
   } catch (err) {
-    randomBg.value.url = 'https://api.daihan.top/api/acg'
+    console.log('err: ', err)
+    randomBg.value.url = 'https://upload-bbs.miyoushe.com/upload/2023/03/04/190122060/c892850d22d95554d49ca4838ee7ef63_4567335272864834588.jpg'
   }
 }
 
