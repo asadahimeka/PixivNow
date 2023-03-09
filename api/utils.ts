@@ -117,18 +117,18 @@ export async function request({
 }
 
 export function isAccepted(req: VercelRequest) {
-  const { "user-agent": ua, origin = '', referer = '' } = req.headers
+  const { "user-agent": ua/* , origin = '', referer = '' */ } = req.headers
   if (!ua) return false
   if (isbot(ua)) return false
-  const { UA_BLACKLIST = '[]', ACCEPT_DIMAINS = '[]' } = process.env
+  const { UA_BLACKLIST = '[]'/* , ACCEPT_DIMAINS = '[]' */ } = process.env
   try {
     const list: string[] = JSON.parse(UA_BLACKLIST)
-    const acceptDomains: string[] = JSON.parse(ACCEPT_DIMAINS)
+    // const acceptDomains: string[] = JSON.parse(ACCEPT_DIMAINS)
     const uaOk = !list.some(e => ua.toLowerCase().includes(e))
-    const originOk = acceptDomains.some(e => origin.includes(e))
-    const refererOk = acceptDomains.some(e => referer.includes(e))
+    // const originOk = acceptDomains.some(e => origin.includes(e))
+    // const refererOk = acceptDomains.some(e => referer.includes(e))
 
-    return uaOk && (originOk || refererOk)
+    return uaOk/*  && (originOk || refererOk) */
   } catch (e) {
     return false
   }
