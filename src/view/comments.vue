@@ -5,6 +5,7 @@
       .body-inner
         card.comments(title='评论')
           comments-area(
+            v-if="showComments"
             :id='id',
             :count='0'
             :limit="10"
@@ -14,10 +15,20 @@
 <script lang="ts" setup>
 import Card from '../components/Card.vue';
 import CommentsArea from '../components/Comment/CommentsArea.vue'
-import { useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { ref, nextTick } from 'vue';
 
 const route = useRoute()
-const id = route.params.id as string
+const id = ref(route.params.id as string)
+const showComments = ref(true)
+
+onBeforeRouteUpdate(to => {
+  showComments.value = false
+  id.value = to.params.id as string
+  nextTick(() => {
+    showComments.value = true
+  })
+})
 </script>
 
 <style lang="sass">

@@ -3147,6 +3147,11 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
+mint-filter@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmmirror.com/mint-filter/-/mint-filter-4.0.2.tgz#4c588498b5ee62e138f0610a5676b34034d3fc10"
+  integrity sha512-/j9mJkj+GHUkkpgQ9spobnPXrGEx5bKnwDQo5dLlWE2h0n5cWKuUaS7X5lG/CXsypcPU0AZu6RgRk4IESHAfPg==
+
 mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmmirror.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"

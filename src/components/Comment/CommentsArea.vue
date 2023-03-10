@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import axios from 'axios'
+import Mint from 'mint-filter'
 import { onMounted, ref } from 'vue'
 import { API_BASE } from '../../config'
 
@@ -44,6 +45,8 @@ async function init(id: string | number): Promise<void> {
 
   try {
     loading.value = true
+    const { data: filterWords } = await axios.get<string>('https://unpkg.com/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
+    const mint = new Mint(filterWords.split(/\s+/))
     const { data } = await axios.get(
       `${API_BASE}/ajax/illusts/comments/roots`,
       {
@@ -55,7 +58,15 @@ async function init(id: string | number): Promise<void> {
       }
     )
     hasNext.value = data.hasNext
-    comments.value = comments.value.concat(data.comments)
+    const res = []
+    for (let i = 0; i < data.comments.length; i++) {
+      const element = data.comments[i];
+      const text = element.userName + element.comment
+      if (mint.verify(text)) {
+        res.push(element)
+      }
+    }
+    comments.value = comments.value.concat(res)
   } catch (err) {
     console.warn('Comments fetch error', err)
   } finally {
