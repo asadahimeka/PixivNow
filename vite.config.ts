@@ -3,6 +3,15 @@ import Vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/dev-api': {
+        target: 'https://pixiv.js.org',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/dev-api/, '')
+      }
+    }
+  },
   plugins: [
     Vue(),
     VitePWA({

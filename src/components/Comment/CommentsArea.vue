@@ -1,7 +1,7 @@
 <template lang="pug">
 .comments-area
   //- CommentSubmit(:id="id" @push-comment="pushComment")
-  em.stats
+  em.stats(v-if='count')
     | 共{{ count || comments.length || 0 }}条评论
   p(v-if="!comments.length && !loading") 还没有人发表评论呢~
   ul.comments-list(v-if="comments.length")
@@ -36,6 +36,7 @@ const hasNext = ref(false)
 const props = defineProps<{
   id: string
   count: number
+  limit?: number
 }>()
 
 async function init(id: string | number): Promise<void> {
@@ -48,7 +49,7 @@ async function init(id: string | number): Promise<void> {
       {
         params: {
           illust_id: id,
-          limit: comments.value.length ? 30 : 3,
+          limit: comments.value.length ? 30 : (props.limit ?? 3),
           offset: comments.value.length,
         },
       }

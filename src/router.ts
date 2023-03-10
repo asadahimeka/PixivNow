@@ -5,6 +5,7 @@ import Users from './view/users.vue'
 import Search from './view/search.vue'
 import Ranking from './view/ranking.vue'
 import About from './view/about.vue'
+import Comments from './view/comments.vue'
 import NotFound from './view/404.vue'
 
 const router = createRouter({
@@ -28,6 +29,12 @@ router.addRoute({
   alias: ['/illust/:id', '/i/:id'],
   name: 'artworks',
   component: Artworks,
+})
+
+router.addRoute({
+  path: '/comments/:id',
+  name: 'Comments',
+  component: Comments,
 })
 
 // User

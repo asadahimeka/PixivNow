@@ -100,6 +100,10 @@ export async function request({
     config.headers!.cookie = headers.cookie || process.env.PIXIV_COOKIE
   }
 
+  if (headers['content-type']) {
+    config.headers!['content-type'] = headers['content-type']
+  }
+
   if (headers['x-csrf-token'] || cookies.CSRFTOKEN) {
     config.headers!['x-csrf-token'] = headers['x-csrf-token'] || cookies.CSRFTOKEN
   }
