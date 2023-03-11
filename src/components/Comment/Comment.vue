@@ -11,7 +11,7 @@ li.comment-block
       span.comment-author
         | {{ comment.userName }}
         .tag(v-if="store.userId === comment.userId") 您
-        .tag(v-if="authorId === comment.userId") 作者
+        //- .tag(v-if="authorId === comment.userId") 作者
       span.comment-reply(v-if="comment.replyToUserId") &emsp;▶&emsp;{{ parentUserName }}
     .content(v-if="!comment.stampId" v-html="replaceStamps(comment.comment)")
     .content(v-if="comment.stampId")
