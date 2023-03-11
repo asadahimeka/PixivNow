@@ -38,6 +38,19 @@ export function handleError(err: any, res: VercelResponse) {
     .send(err?.response?.data || err)
 }
 
+export function objectToQueryString(queryParameters: any) {
+  return queryParameters
+    ? Object.entries(queryParameters).reduce(
+      (queryString, [key, val]) => {
+        const symbol = queryString.length === 0 ? '?' : '&'
+        queryString += `${symbol}${key}=${val}`
+        return queryString
+      },
+      ''
+    )
+    : ''
+}
+
 export async function request({
   method = 'get',
   path = '/',
@@ -86,10 +99,10 @@ export async function request({
       'accept-language': headers['accept-language'] || 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
       // 避免国产阴间浏览器或手机端等导致的验证码
       "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0",
-      DNT: 1,
-      "Sec-Fetch-Dest": "empty",
-      "Sec-Fetch-Mode": "cors",
-      "Sec-Fetch-Site": "same-origin",
+      dnt: 1,
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
 
       // ↓ Keep these headers
       host: 'www.pixiv.net',
@@ -106,19 +119,22 @@ export async function request({
 
   if (headers['content-type']) {
     config.headers!['content-type'] = headers['content-type']
+    if (headers['content-type'].includes('x-www-form-urlencoded')) {
+      config.data = objectToQueryString(config.data).slice(1)
+    }
   }
 
   if (headers['x-csrf-token'] || cookies.CSRFTOKEN) {
     config.headers!['x-csrf-token'] = headers['x-csrf-token'] || cookies.CSRFTOKEN
   }
 
+  console.log('config: ', config)
   try {
-    console.log('config: ', config)
     const res = await axios(config)
     res.data = replaceUrl(res.data?.body || res.data)
     return res
-  } catch (err) {
-    console.error('[AxiosError] Config', err.config)
+  } catch (error) {
+    const err = error as any
     console.error('[AxiosError] Response', err.response)
     throw err
   }
@@ -149,8 +165,10 @@ export function setCorsHeader(req: VercelRequest, res: VercelResponse) {
 export default async (req: VercelRequest, res: VercelResponse) => {
   res.send({
     url: req.url,
+    query: req.query,
     headers: req.headers,
     cookies: req.cookies,
+    body: req.body,
     isAccepted: isAccepted(req)
   })
 }
