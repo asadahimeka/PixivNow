@@ -5,7 +5,14 @@
     | 共{{ count || comments.length || 0 }}条评论
   p(v-if="!comments.length && !loading") 还没有人发表评论呢~
   ul.comments-list(v-if="comments.length")
-    comment(v-for="item in comments" :comment="item")
+    .comments-item(v-for="item in comments")
+      comment(:comment="item")
+      .reply-area
+        a.button(v-if="item.hasReplies && !qShowMap[item.id]" @click="queryReply(item.id)")
+          | {{ qLoadingMap[item.id] ? '加载中' : '查看回复' }}
+        ul.comments-list(v-if="qShowMap[item.id]")
+          .comments-item(v-for="qItem in qComments[item.id]")
+            comment(:comment="qItem" :author-id="item.userId" :parent-user-name="item.userName")
     .show-more.align-center
       a.button(
         v-if="comments.length && hasNext"
@@ -40,13 +47,17 @@ const props = defineProps<{
   limit?: number
 }>()
 
+
+let mint: Mint
 async function init(id: string | number): Promise<void> {
   if (loading.value) return
 
   try {
     loading.value = true
-    const { data: filterWords } = await axios.get<string>('https://unpkg.com/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
-    const mint = new Mint(filterWords.split(/\s+/))
+    if (!mint) {
+      const { data: filterWords } = await axios.get<string>('https://unpkg.com/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
+      mint = new Mint(filterWords.split(/\s+/))
+    }
     const { data } = await axios.get(
       `${API_BASE}/ajax/illusts/comments/roots`,
       {
@@ -74,6 +85,39 @@ async function init(id: string | number): Promise<void> {
   }
 }
 
+const qShowMap = ref<Record<string, boolean | undefined>>({})
+const qLoadingMap = ref<Record<string, boolean | undefined>>({})
+const qComments = ref<Record<string, Comments[]>>({})
+async function queryReply(id: string | number): Promise<void> {
+  if (qLoadingMap.value[id]) return
+  try {
+    qLoadingMap.value[id] = true
+    const { data } = await axios.get(
+      `${API_BASE}/ajax/illusts/comments/replies`,
+      {
+        params: {
+          comment_id: id,
+          page: 1,
+        },
+      }
+    )
+    const res = []
+    for (let i = 0; i < data.comments.length; i++) {
+      const element = data.comments[i];
+      const text = element.userName + element.comment
+      if (mint.verify(text)) {
+        res.push(element)
+      }
+    }
+    qComments.value[id] = (qComments.value[id] || []).concat(res)
+    qShowMap.value[id] = true
+  } catch (err) {
+    console.warn('Comments fetch error', err)
+  } finally {
+    qLoadingMap.value[id] = false
+  }
+}
+
 function pushComment(data: any) {
   console.log(data)
   comments.value.unshift(data)
@@ -90,4 +134,7 @@ onMounted(async () => {
 .comments-list
   list-style: none
   padding-left: 0
+
+.reply-area
+  margin: 10px 0 20px 50px
 </style>

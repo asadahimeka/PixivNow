@@ -11,7 +11,8 @@ li.comment-block
       span.comment-author
         | {{ comment.userName }}
         .tag(v-if="store.userId === comment.userId") 您
-      span.comment-reply(v-if="comment.replyToUserId") &emsp;▶&emsp;{{ comment.replyToUserName }}
+        .tag(v-if="authorId === comment.userId") 作者
+      span.comment-reply(v-if="comment.replyToUserId") &emsp;▶&emsp;{{ parentUserName }}
     .content(v-if="!comment.stampId" v-html="replaceStamps(comment.comment)")
     .content(v-if="comment.stampId")
       img.big-stamp(
@@ -27,7 +28,12 @@ import stampList from './stampList.json'
 import type { Comments } from '../../types'
 import { useUserStore } from '../../states'
 
-const props = defineProps<{ comment: Comments }>()
+const props = defineProps<{
+  comment: Comments,
+  parentUserName?: string
+  authorId?: string
+}>()
+
 const store = useUserStore()
 
 function replaceStamps(str: string): string {
