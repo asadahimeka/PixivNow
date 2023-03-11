@@ -15,7 +15,7 @@ export function replaceUrl(
   function replace(str: string): string {
     return str
       .replace(/https:\/\/i\.pximg\.net\//g, '/-/')
-      // .replace(/https:\/\/s\.pximg\.net\//g, '/~/')
+    // .replace(/https:\/\/s\.pximg\.net\//g, '/~/')
   }
   if (typeof obj === 'string') return replace(obj)
 
@@ -71,6 +71,9 @@ export async function request({
     delete params._anon
   }
 
+  if (params?.__PREFIX) delete params.__PREFIX
+  if (params?.__PATH) delete params.__PATH
+
   const config: AxiosRequestConfig = {
     url: url.href,
     method,
@@ -82,10 +85,11 @@ export async function request({
       'accept-encoding': 'gzip, deflate, br',
       'accept-language': headers['accept-language'] || 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
       // 避免国产阴间浏览器或手机端等导致的验证码
-      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.46",
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua": "\"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"108\", \"Microsoft Edge\";v=\"108\"",
-      "sec-ch-ua-platform": "\"Windows\"",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0",
+      DNT: 1,
+      "Sec-Fetch-Dest": "empty",
+      "Sec-Fetch-Mode": "cors",
+      "Sec-Fetch-Site": "same-origin",
 
       // ↓ Keep these headers
       host: 'www.pixiv.net',
@@ -108,14 +112,14 @@ export async function request({
     config.headers!['x-csrf-token'] = headers['x-csrf-token'] || cookies.CSRFTOKEN
   }
 
-  console.log('config: ', config)
-
   try {
+    console.log('config: ', config)
     const res = await axios(config)
     res.data = replaceUrl(res.data?.body || res.data)
     return res
   } catch (err) {
-    console.error('[AxiosError]', err)
+    console.error('[AxiosError] Config', err.config)
+    console.error('[AxiosError] Response', err.response)
     throw err
   }
 }
