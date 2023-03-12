@@ -24,7 +24,8 @@
           :icon="loading ? 'spinner' : 'plus'"
           :spin="loading")
   .align-center(v-if="!comments.length && loading")
-    placeholder
+    //- placeholder
+    fa(icon="spinner" :spin="loading")
 </template>
 
 <script lang="ts" setup>
