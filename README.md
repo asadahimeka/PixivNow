@@ -12,7 +12,7 @@ Pixiv Service Proxy
 
 可以使用以下方式传递用户 token 来鉴权：
 
-- Header 以 `Authorization` 传递
+- Header 以 `X-AUTH` 传递
 - Cookie 以键名 `PHPSESSID` 传递
 
 请求路径 `/ajax/*` 的返回结果与 `https://pixiv.net/ajax/*` 的行为完全一致。

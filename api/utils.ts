@@ -128,6 +128,10 @@ export async function request({
     config.headers!['x-csrf-token'] = headers['x-csrf-token'] || cookies.CSRFTOKEN
   }
 
+  if (headers['x-auth']) {
+    config.headers!.cookie = headers['x-auth']
+  }
+
   console.log('config: ', config)
   try {
     const res = await axios(config)

@@ -6,7 +6,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   if (!isAccepted(req)) {
     return res.status(403).send('403 Forbidden')
   }
-  const token = req.cookies.PHPSESSID || req.query.token
+  const token = req.cookies.PHPSESSID || req.headers['X-AUTH']
   if (!token) {
     return res.status(403).send({ message: '未配置用户密钥' })
   }
