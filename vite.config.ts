@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import { VitePWA } from 'vite-plugin-pwa'
+import vue from '@vitejs/plugin-vue'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 export default defineConfig({
   server: {
@@ -13,8 +14,12 @@ export default defineConfig({
     }
   },
   plugins: [
-    Vue(),
-    VitePWA({
+    vue(),
+    createHtmlPlugin({
+      minify: true,
+      entry: 'src/main.ts',
+    }),
+    pwa({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico'],
       manifestFilename: 'manifest.json',

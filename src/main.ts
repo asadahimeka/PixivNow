@@ -5,9 +5,32 @@ import App from './App.vue'
 import { router } from './router'
 import ExternalLink from './components/ExternalLink.vue'
 import Lazyload from './components/LazyLoad.vue'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faAngleDown,
+  faAngleLeft,
+  faArrowDown,
+  faBars,
+  faBirthdayCake,
+  faCrown,
+  faExternalLinkAlt,
+  faEye,
+  faHeart,
+  faHome,
+  faImages,
+  faLaughWink,
+  faMapMarkedAlt,
+  faParking,
+  faPlus,
+  faQuestionCircle,
+  faRandom,
+  faSearch,
+  faSpinner,
+  faThumbsUp,
+  faTimes,
+  faVenusMars,
+} from '@fortawesome/free-solid-svg-icons'
 
 // Style
 import './styles/index.sass'
@@ -26,7 +49,30 @@ app.component('lazyload', Lazyload)
 
 // FontAwesome
 // https://fontawesome.com/v5.15/icons
-library.add(fas)
+library.add(
+  faRandom,
+  faPlus,
+  faBars,
+  faSearch,
+  faCrown,
+  faAngleDown,
+  faTimes,
+  faSpinner,
+  faEye,
+  faImages,
+  faHeart,
+  faLaughWink,
+  faThumbsUp,
+  faQuestionCircle,
+  faAngleLeft,
+  faVenusMars,
+  faBirthdayCake,
+  faMapMarkedAlt,
+  faHome,
+  faParking,
+  faArrowDown,
+  faExternalLinkAlt,
+)
 app.component('fa', FontAwesomeIcon)
 
 // Mount

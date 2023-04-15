@@ -53,7 +53,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { formatInTimeZone } from 'date-fns-tz'
+import formatInTimeZone from 'date-fns-tz/formatInTimeZone'
 import { API_BASE, resolveSrc } from '../config'
 import { getCache, setCache } from '../utils/siteCache'
 
@@ -138,7 +138,7 @@ async function setDiscoveryFromCache(): Promise<void> {
 }
 
 onMounted(async () => {
-  document.title = 'Pixiv Now'
+  document.title = 'PixivNow'
   await setRandomBgFromCache()
   await setDiscoveryFromCache()
 })
