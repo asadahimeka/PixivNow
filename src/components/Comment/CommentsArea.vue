@@ -35,8 +35,9 @@ import { onMounted, ref } from 'vue'
 import { API_BASE } from '../../config'
 
 import Comment from './Comment.vue'
-import Placeholder from '../Placeholder.vue'
+// import Placeholder from '../Placeholder.vue'
 import type { Comments } from '../../types'
+import { getCache, setCache } from '../../utils/siteCache'
 
 const loading = ref(false)
 const comments = ref<Comments[]>([])
@@ -56,8 +57,13 @@ async function init(id: string | number): Promise<void> {
   try {
     loading.value = true
     if (!mint) {
-      const { data: filterWords } = await axios.get<string>('https://unpkg.com/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
-      mint = new Mint(filterWords.split(/\s+/))
+      let filterWords = await getCache('s.filter.words')
+      if (!filterWords) {
+        const res = await axios.get<string>('https://unpkg.com/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
+        filterWords = res.data.split(/\s+/)
+        setCache('s.filter.words', filterWords, -1)
+      }
+      mint = new Mint(filterWords)
     }
     const { data } = await axios.get(
       `${API_BASE}/ajax/illusts/comments/roots`,
