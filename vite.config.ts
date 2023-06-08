@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   server: {
     proxy: {
       '/dev-api': {
@@ -12,6 +12,9 @@ export default defineConfig({
         rewrite: path => path.replace(/^\/dev-api/, '')
       }
     }
+  },
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
   },
   plugins: [
     vue(),
@@ -91,4 +94,4 @@ export default defineConfig({
       },
     }),
   ],
-})
+}))
