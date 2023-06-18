@@ -43,50 +43,12 @@ export default defineConfig(({ mode }) => ({
         ],
         runtimeCaching: [
           {
-            urlPattern: /.*\.css/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'css-cache',
-              cacheableResponse: {
-                statuses: [200],
-              },
-            },
-          },
-          {
-            urlPattern: /.*\.js/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'js-cache',
-              cacheableResponse: {
-                statuses: [200],
-              },
-            },
-          },
-          {
-            urlPattern: /.*\.(png|gif|jpg|jpeg|svg)/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'image-cache',
-              cacheableResponse: {
-                statuses: [200],
-              },
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 31536000,
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/(nfn\.kanata\.ml|i\.pixiv\.re)/,
+            urlPattern: /^https:\/\/(?:nfn\.kanata\.ml|i\.pixiv\.re|unpkg\.com)/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'cdn-cache',
               cacheableResponse: {
                 statuses: [200],
-              },
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 31536000,
               },
             },
           },

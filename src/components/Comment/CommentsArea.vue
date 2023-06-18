@@ -31,6 +31,7 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import Mint from 'mint-filter'
+import uniqBy from 'lodash/uniqBy'
 import { onMounted, ref } from 'vue'
 import { API_BASE } from '../../config'
 
@@ -84,7 +85,7 @@ async function init(id: string | number): Promise<void> {
         res.push(element)
       }
     }
-    comments.value = comments.value.concat(res)
+    comments.value = uniqBy(comments.value.concat(res), 'id')
   } catch (err) {
     console.warn('Comments fetch error', err)
   } finally {
@@ -116,7 +117,7 @@ async function queryReply(id: string | number): Promise<void> {
         res.push(element)
       }
     }
-    qComments.value[id] = (qComments.value[id] || []).concat(res)
+    qComments.value[id] = uniqBy([...qComments.value[id], ...res], 'id')
     qShowMap.value[id] = true
   } catch (err) {
     console.warn('Comments fetch error', err)
