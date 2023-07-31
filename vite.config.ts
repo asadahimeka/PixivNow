@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
         ],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/(?:nfn\.kanata\.ml|i\.pixiv\.re|unpkg\.com)/,
+            urlPattern: /^https:\/\/(?:nf\.cocomi\.eu\.org|i\.pixiv\.re|unpkg\.com)/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'cdn-cache',
