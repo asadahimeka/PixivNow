@@ -117,7 +117,8 @@ async function queryReply(id: string | number): Promise<void> {
         res.push(element)
       }
     }
-    qComments.value[id] = uniqBy([...qComments.value[id], ...res], 'id')
+    // qComments.value[id] = uniqBy((qComments.value[id] || []).concat(res), 'id')
+    qComments.value[id] = uniqBy(res, 'id')
     qShowMap.value[id] = true
   } catch (err) {
     console.warn('Comments fetch error', err)
