@@ -42,6 +42,7 @@ import { getCache, setCache } from '../../utils/siteCache'
 
 const loading = ref(false)
 const comments = ref<Comments[]>([])
+const offset = ref(0)
 const hasNext = ref(false)
 
 const props = defineProps<{
@@ -72,7 +73,7 @@ async function init(id: string | number): Promise<void> {
         params: {
           illust_id: id,
           limit: comments.value.length ? 30 : (props.limit ?? 3),
-          offset: comments.value.length,
+          offset: offset.value,
         },
       }
     )
@@ -86,6 +87,7 @@ async function init(id: string | number): Promise<void> {
       }
     }
     comments.value = uniqBy(comments.value.concat(res), 'id')
+    offset.value += data.comments.length
   } catch (err) {
     console.warn('Comments fetch error', err)
   } finally {
