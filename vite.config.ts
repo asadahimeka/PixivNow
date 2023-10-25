@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: 'Pixiv Now',
         short_name: 'PixivNow',
-        description: 'Another Pixiv Service Proxy.',
+        description: 'Now, everyone can enjoy Pixiv!',
         theme_color: '#3697e7',
       },
       workbox: {

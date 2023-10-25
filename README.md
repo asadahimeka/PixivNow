@@ -2,9 +2,7 @@
 
 ![PixivNow Logo](src/assets/LogoH.png)
 
-Pixiv Service Proxy
-
-→ https://pixiv.cocomi.eu.org ←
+Now, everyone can enjoy Pixiv!
 
 </div>
 

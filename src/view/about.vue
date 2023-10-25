@@ -30,9 +30,9 @@ mixin repoLink
     //-     li 能够使用高级搜索（订阅过 Pixiv 会员时）
     //-   p 部分高级功能的效果取决于您在 Pixiv 源站的设定，您可以在 <external-link href="https://www.pixiv.net/setting_profile.php" target="_blank">这里</external-link> 查看。
 
-    card(title="开销")
-      p
-        | 我们的技术栈全都是白嫖来的，目前没有任何经济开销，因此您在使用的时候完全不用有心理负担（
+    //- card(title="开销")
+    //-   p
+    //-     | 我们的技术栈全都是白嫖来的，目前没有任何经济开销，因此您在使用的时候完全不用有心理负担（
 
     card(title="鸣谢")
       p: em 以下排名不分先后

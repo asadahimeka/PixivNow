@@ -8,7 +8,7 @@
 
     .site-logo
       img(:src='LogoH')
-    .description Another Pixiv Service Proxy
+    .description Now, everyone can enjoy Pixiv!
 
     .bg-info
       a.pointer(
