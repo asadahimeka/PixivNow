@@ -35,20 +35,20 @@
         router-link(:to='"/users/" + randomBg.info.userId') {{ randomBg.info.userName }}
         | 的作品 (ID: {{ randomBg.info.id }})
 
-  .body-inner
-    section.discover
-      h2 探索发现
-      .align-center
-        a.button(@click='discoveryList.length ? (async () => await setDiscoveryNoCache())() : void 0')
-          | {{ discoveryList.length ? "换一批" : "加载中" }}
-          |
-          fa(
-            :icon='discoveryList.length ? "random" : "spinner"',
-            :spin='!discoveryList.length'
-          )
-      .align-center(v-if='!discoveryList.length')
-        placeholder
-      artwork-list(:list='discoveryList')
+  //- .body-inner
+  //-   section.discover
+  //-     h2 探索发现
+  //-     .align-center
+  //-       a.button(@click='discoveryList.length ? (async () => await setDiscoveryNoCache())() : void 0')
+  //-         | {{ discoveryList.length ? "换一批" : "加载中" }}
+  //-         |
+  //-         fa(
+  //-           :icon='discoveryList.length ? "random" : "spinner"',
+  //-           :spin='!discoveryList.length'
+  //-         )
+  //-     .align-center(v-if='!discoveryList.length')
+  //-       placeholder
+  //-     artwork-list(:list='discoveryList')
 </template>
 
 <script lang="ts" setup>
@@ -57,10 +57,10 @@ import formatInTimeZone from 'date-fns-tz/formatInTimeZone'
 import { API_BASE, resolveSrc } from '../config'
 import { getCache, setCache } from '../utils/siteCache'
 
-import ArtworkList from '../components/ArtworksList/ArtworkList.vue'
+// import ArtworkList from '../components/ArtworksList/ArtworkList.vue'
 import Modal from '../components/Modal.vue'
 import SearchBox from '../components/SearchBox.vue'
-import Placeholder from '../components/Placeholder.vue'
+// import Placeholder from '../components/Placeholder.vue'
 import LogoH from '../assets/LogoH.png'
 import type { ArtworkInfo, ArtworkInfoOrAd } from '../types'
 import { getJSON } from '../utils/fetch'
@@ -139,8 +139,8 @@ async function setDiscoveryFromCache(): Promise<void> {
 
 onMounted(async () => {
   document.title = 'PixivNow'
-  await setRandomBgFromCache()
-  await setDiscoveryFromCache()
+  // await setRandomBgFromCache()
+  // await setDiscoveryFromCache()
 })
 </script>
 
