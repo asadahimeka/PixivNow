@@ -55,4 +55,8 @@ main
     background-color: rgba(0, 0, 0, 0.02)
     padding-bottom: 3rem
     z-index: 1
+
+
+[data-route="home"] main article
+  padding-bottom: 0
 </style>

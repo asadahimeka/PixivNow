@@ -129,10 +129,8 @@ export async function request({
     config.headers!.cookie = headers['x-auth']
   }
 
-  console.log('config: ', config)
   try {
     const res = await axios(config)
-    console.log('res:', res.data)
     res.data = replaceUrl(res.data?.body || res.data)
     return res
   } catch (error) {
