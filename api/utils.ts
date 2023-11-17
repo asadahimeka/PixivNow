@@ -94,11 +94,11 @@ export async function request({
     data,
     timeout: 9000,
     headers: {
-      ...headers,
       // accept: headers.accept || '*/*',
       'accept': 'application/json',
       'accept-encoding': 'gzip, deflate, br',
       'accept-language': 'zh-CN,zh;q=0.9',
+      'accept-charset': 'UTF-8',
       "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0",
 
       // ↓ Keep these headers
@@ -132,6 +132,7 @@ export async function request({
   console.log('config: ', config)
   try {
     const res = await axios(config)
+    console.log('res:', res.data)
     res.data = replaceUrl(res.data?.body || res.data)
     return res
   } catch (error) {
