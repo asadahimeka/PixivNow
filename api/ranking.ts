@@ -34,14 +34,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     },
     headers,
     specHeaders: {
-      accept: 'application/json, text/javascript, */*; q=0.01',
-      'accept-encoding': 'gzip, deflate, br',
-      'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
       referer: 'https://www.pixiv.net/ranking.php',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'same-origin',
-      'x-requested-with': 'XMLHttpRequest'
     }
   })
     .then(({ data }) => {

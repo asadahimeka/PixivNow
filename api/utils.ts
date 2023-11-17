@@ -94,20 +94,17 @@ export async function request({
     data,
     timeout: 9000,
     headers: {
-      accept: headers.accept || '*/*',
+      ...headers,
+      // accept: headers.accept || '*/*',
+      'accept': 'application/json',
       'accept-encoding': 'gzip, deflate, br',
-      'accept-language': headers['accept-language'] || 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-      // 避免国产阴间浏览器或手机端等导致的验证码
-      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0",
-      dnt: 1,
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "same-origin",
+      'accept-language': 'zh-CN,zh;q=0.9',
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0",
 
       // ↓ Keep these headers
-      host: 'www.pixiv.net',
-      origin: 'https://www.pixiv.net',
-      referer: 'https://www.pixiv.net/',
+      'host': 'www.pixiv.net',
+      'origin': 'https://www.pixiv.net',
+      'referer': 'https://www.pixiv.net/',
 
       ...specHeaders
     },
