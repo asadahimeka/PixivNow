@@ -17,6 +17,10 @@
     {
       "source": "/-/:__PATH*",
       "destination": "https://nf.cocomi.eu.org/pximg/:__PATH"
+    },
+    {
+      "source": "/~/:match*",
+      "destination": "https://s.pximg.net/:match"
     }
   ]
 }
