@@ -43,7 +43,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const isNovel = route.query.novel == '1'
-const ajaxPart = isNovel ? 'illusts' : 'novels'
+const ajaxPart = isNovel ? 'novels' : 'illusts'
 
 const loading = ref(false)
 const comments = ref<Comments[]>([])
