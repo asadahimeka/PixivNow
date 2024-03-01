@@ -35,7 +35,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         manga: makeArtList(manga),
         novels,
       }
-      res.setHeader('Cache-Control', 'max-age=0, s-maxage=3600')
+      res.setHeader('Cache-Control', 'max-age=3600, s-maxage=3600')
       res.send(data)
     },
     (err) => {

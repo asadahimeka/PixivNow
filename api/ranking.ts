@@ -42,7 +42,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         i.x_restrict = i?.illust_content_type?.sexual || 0
         return i
       })
-      res.setHeader('cache-control', 'max-age=0, s-maxage=86400')
+      res.setHeader('cache-control', 'max-age=86400, s-maxage=86400')
       res.send(data)
     })
     .catch((err) => {

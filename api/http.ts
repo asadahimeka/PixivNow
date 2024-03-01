@@ -10,7 +10,10 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   setCorsHeader(req, res)
 
   try {
-    const { __PREFIX, __PATH } = req.query
+    let { __PREFIX, __PATH } = req.query as Record<string, string>
+    if (/novel\/\d+\.txt$/.test(__PATH)) {
+      __PATH = __PATH.replace('.txt', '')
+    }
     const { data } = await request({
       method: req.method as Method,
       path: `/${encodeURI(`${__PREFIX}${__PATH ? '/' + __PATH : ''}`)}`,
@@ -18,7 +21,11 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       data: req.body,
       headers: req.headers,
     })
-    res.setHeader('Cache-Control', 'max-age=0, s-maxage=3600')
+    if (req.url?.endsWith('.txt')) {
+      res.setHeader('Cache-Control', 'max-age=2678400, s-maxage=2678400')
+    } else {
+      res.setHeader('Cache-Control', 'max-age=3600, s-maxage=3600')
+    }
     res.status(200).send(data)
   } catch (err) {
     const e = err as any

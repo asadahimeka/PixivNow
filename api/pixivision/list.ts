@@ -63,7 +63,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
     }
 
-    res.setHeader('cache-control', 'max-age=0, s-maxage=21600')
+    res.setHeader('cache-control', 'max-age=21600, s-maxage=21600')
     res.send(data)
   } catch (err) {
     console.log('err: ', err)
