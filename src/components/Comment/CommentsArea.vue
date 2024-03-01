@@ -39,6 +39,11 @@ import Comment from './Comment.vue'
 // import Placeholder from '../Placeholder.vue'
 import type { Comments } from '../../types'
 import { getCache, setCache } from '../../utils/siteCache'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const isNovel = route.query.novel == '1'
+const ajaxPart = isNovel ? 'illusts' : 'novels'
 
 const loading = ref(false)
 const comments = ref<Comments[]>([])
@@ -68,10 +73,10 @@ async function init(id: string | number): Promise<void> {
       mint = new Mint(filterWords)
     }
     const { data } = await axios.get(
-      `${API_BASE}/ajax/illusts/comments/roots`,
+      `${API_BASE}/ajax/${ajaxPart}/comments/roots`,
       {
         params: {
-          illust_id: id,
+          [isNovel ? 'novel_id' : 'illust_id']: id,
           limit: comments.value.length ? 30 : (props.limit ?? 3),
           offset: offset.value,
         },
@@ -103,7 +108,7 @@ async function queryReply(id: string | number): Promise<void> {
   try {
     qLoadingMap.value[id] = true
     const { data } = await axios.get(
-      `${API_BASE}/ajax/illusts/comments/replies`,
+      `${API_BASE}/ajax/${ajaxPart}/comments/replies`,
       {
         params: {
           comment_id: id,
