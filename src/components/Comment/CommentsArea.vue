@@ -66,7 +66,7 @@ async function init(id: string | number): Promise<void> {
     if (!mint) {
       let filterWords = await getCache('s.filter.words')
       if (!filterWords) {
-        const res = await axios.get<string>('https://kwc.cocomi.eu.org/https://cdn.jsdelivr.net/npm/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
+        const res = await axios.get<string>('https://kw-wkc.pixiv.pics/https://cdn.jsdelivr.net/npm/@dragon-fish/sensitive-words-filter@2.0.1/lib/words.txt')
         filterWords = res.data.split(/\s+/)
         setCache('s.filter.words', filterWords, -1)
       }

@@ -16,7 +16,7 @@
   "redirects": [
     {
       "source": "/-/:__PATH*",
-      "destination": "https://nf.cocomi.eu.org/pximg/:__PATH"
+      "destination": "https://kw-nf.pixiv.pics/pximg/:__PATH"
     },
     {
       "source": "/~/:match*",

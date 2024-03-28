@@ -27,7 +27,7 @@ import { resolveSrc } from '../config';
 const props = defineProps<{
   user: User
 }>()
-const API = ref('https://pixiv.cocomi.eu.org')
+const API = ref('https://now.pixiv.pics')
 </script>
 
 <style scoped lang="sass">

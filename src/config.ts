@@ -36,5 +36,5 @@ export function resolveSrc(src?: string | null) {
   if (src.includes('s.pximg.net')) {
     return src
   }
-  return 'https://nf.cocomi.eu.org/pximg' + src.replace('/-/', '/')
+  return 'https://kw-nf.pixiv.pics/pximg' + src.replace('/-/', '/')
 }

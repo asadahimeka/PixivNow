@@ -41,7 +41,7 @@ footer.global-footer
     .dev-only(style="font-style: italic")
       | This is test site →&nbsp;
       a(
-        :href="'https://pixiv.cocomi.eu.org' + $route.path"
+        :href="'https://now.pixiv.pics' + $route.path"
         target="_blank"
       ) Go to Prod.
 </template>
